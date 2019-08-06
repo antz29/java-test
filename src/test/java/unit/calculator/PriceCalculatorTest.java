@@ -33,5 +33,5 @@ public class PriceCalculatorTest {
 
         assertThat(price1, Matchers.comparesEqualTo(price2));
     }
-    
+
 }
