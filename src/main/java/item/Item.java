@@ -1,12 +1,14 @@
 package item;
 
+import calculator.PriceCalculator;
+
 import java.math.BigDecimal;
 
 public enum Item {
-    SOUP(Unit.TIN, BigDecimal.valueOf(0.65), null),
-    BREAD(Unit.LOAF, BigDecimal.valueOf(0.8), null),
-    MILK(Unit.BOTTLE, BigDecimal.valueOf(1.3), null),
-    APPLE(Unit.SINGLE, BigDecimal.valueOf(0.1), null);
+    SOUP(Unit.TIN, BigDecimal.valueOf(0.65), new PriceCalculator() {}),
+    BREAD(Unit.LOAF, BigDecimal.valueOf(0.8), new PriceCalculator() {}),
+    MILK(Unit.BOTTLE, BigDecimal.valueOf(1.3), new PriceCalculator() {}),
+    APPLE(Unit.SINGLE, BigDecimal.valueOf(0.1), new PriceCalculator() {});
 
     private final Unit unit;
     private final BigDecimal price;
@@ -18,8 +20,12 @@ public enum Item {
         this.calculator = calculator;
     }
 
+    public BigDecimal getPrice() {
+        return price;
+    }
+
     public PriceCalculator getCalculator() {
-        return null;
+        return calculator;
     }
 
 
