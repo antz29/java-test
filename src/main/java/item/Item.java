@@ -1,5 +1,6 @@
 package item;
 
+import calculator.ApplePromotion;
 import calculator.PriceCalculator;
 
 import java.math.BigDecimal;
@@ -8,7 +9,7 @@ public enum Item {
     SOUP(Unit.TIN, BigDecimal.valueOf(0.65), new PriceCalculator() {}),
     BREAD(Unit.LOAF, BigDecimal.valueOf(0.8), new PriceCalculator() {}),
     MILK(Unit.BOTTLE, BigDecimal.valueOf(1.3), new PriceCalculator() {}),
-    APPLE(Unit.SINGLE, BigDecimal.valueOf(0.1), new PriceCalculator() {});
+    APPLE(Unit.SINGLE, BigDecimal.valueOf(0.1), new ApplePromotion());
 
     private final Unit unit;
     private final BigDecimal price;
