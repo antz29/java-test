@@ -7,17 +7,15 @@ import calculator.PriceCalculator;
 import java.math.BigDecimal;
 
 public enum Item {
-    SOUP(Unit.TIN, BigDecimal.valueOf(0.65), new PriceCalculator() {}),
-    BREAD(Unit.LOAF, BigDecimal.valueOf(0.8), new BreadPromotion()),
-    MILK(Unit.BOTTLE, BigDecimal.valueOf(1.3), new PriceCalculator() {}),
-    APPLE(Unit.SINGLE, BigDecimal.valueOf(0.1), new ApplePromotion());
+    SOUP(BigDecimal.valueOf(0.65), new PriceCalculator() {}),
+    BREAD(BigDecimal.valueOf(0.8), new BreadPromotion()),
+    MILK(BigDecimal.valueOf(1.3), new PriceCalculator() {}),
+    APPLE(BigDecimal.valueOf(0.1), new ApplePromotion());
 
-    private final Unit unit;
     private final BigDecimal price;
     private final PriceCalculator calculator;
 
-    Item(Unit unit, BigDecimal price, PriceCalculator calculator) {
-        this.unit = unit;
+    Item(BigDecimal price, PriceCalculator calculator) {
         this.price = price;
         this.calculator = calculator;
     }
