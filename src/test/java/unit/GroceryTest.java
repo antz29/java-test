@@ -76,4 +76,10 @@ public class GroceryTest {
 
         assertEquals(Integer.valueOf(5), shoppingCart.getItems().get(Item.APPLE));
     }
+
+    @Test
+    public void calculateZeroIFShoppingCartEmpty() {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        assertEquals(BigDecimal.ZERO, shoppingCart.calculate(LocalDateTime.now()));
+    }
 }
