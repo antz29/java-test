@@ -1,12 +1,13 @@
 package com.ford;
 
-import com.ford.products.Product;
+import com.ford.henrysgroceries.Basket;
+import com.ford.henrysgroceries.products.Product;
 import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import static com.ford.products.ProductHelper.*;
+import static com.ford.henrysgroceries.products.ProductHelper.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 

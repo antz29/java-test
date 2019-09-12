@@ -1,4 +1,4 @@
-package com.ford.products;
+package com.ford.henrysgroceries.products;
 
 import java.math.BigDecimal;
 

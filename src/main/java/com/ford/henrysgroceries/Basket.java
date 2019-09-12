@@ -1,6 +1,6 @@
-package com.ford;
+package com.ford.henrysgroceries;
 
-import com.ford.products.Product;
+import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
