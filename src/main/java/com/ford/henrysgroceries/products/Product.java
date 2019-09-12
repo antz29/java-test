@@ -2,11 +2,29 @@ package com.ford.henrysgroceries.products;
 
 import java.math.BigDecimal;
 
-public interface Product {
+public class Product {
 
-    String getProduct();
+    private final String name;
 
-    String getUnit();
+    private final String unit;
 
-    BigDecimal getPrice();
+    private final BigDecimal price;
+
+    public Product(String name, String unit, BigDecimal price) {
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
 }
