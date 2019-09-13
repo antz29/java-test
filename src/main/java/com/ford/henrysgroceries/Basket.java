@@ -23,4 +23,16 @@ public class Basket {
                 .map(Product::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Basket:\n");
+        products.forEach(product -> display(sb, product));
+        sb.append("Total: £").append(calculateTotal()).append("\n");
+        return sb.toString();
+    }
+
+    private StringBuilder display(StringBuilder sb, Product product) {
+        return sb.append(product.getName()).append(" ").append(product.getPrice()).append("\n");
+    }
 }
