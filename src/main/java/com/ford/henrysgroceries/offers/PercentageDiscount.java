@@ -5,9 +5,6 @@ import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
 
-import static com.ford.henrysgroceries.products.ProductHelper.apples;
-import static java.math.BigDecimal.ROUND_HALF_UP;
-
 public class PercentageDiscount implements Offer {
 
     private Product discountedProduct;
