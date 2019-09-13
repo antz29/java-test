@@ -1,6 +1,5 @@
-package com.ford;
+package com.ford.henrysgroceries;
 
-import com.ford.henrysgroceries.Basket;
 import com.ford.henrysgroceries.products.Product;
 import org.junit.Test;
 
