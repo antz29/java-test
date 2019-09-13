@@ -35,6 +35,16 @@ public class PercentageDiscountTest {
     }
 
     @Test
+    public void breadDiscountedBy50Percent() {
+        List<Offer> offers = Collections.singletonList(new PercentageDiscount(bread(), 50));
+        Basket basket = new Basket(offers, bread());
+
+        BigDecimal total = basket.calculateTotal();
+
+        assertThat(total.compareTo(new BigDecimal("0.40")), is(0));
+    }
+
+    @Test
     public void manyApplesAreDiscountedBy10Percent() {
         List<Offer> offers = Collections.singletonList(new PercentageDiscount(apples(), 10));
         Basket basket = new Basket(offers, apples(), apples(), apples());
@@ -46,9 +56,9 @@ public class PercentageDiscountTest {
 
     @Test
     public void offerNotAppliedToOtherProducts() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(apples(), 10));
+        List<Offer> offers = Collections.singletonList(new PercentageDiscount(milk(), 10));
 
-        for (Product product : Arrays.asList(soup(), bread(), milk())) {
+        for (Product product : Arrays.asList(soup(), bread(), apples())) {
             Basket basket = new Basket(offers, product);
 
             BigDecimal total = basket.calculateTotal();

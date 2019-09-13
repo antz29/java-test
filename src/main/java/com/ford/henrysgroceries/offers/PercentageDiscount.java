@@ -6,6 +6,7 @@ import com.ford.henrysgroceries.products.Product;
 import java.math.BigDecimal;
 
 import static com.ford.henrysgroceries.products.ProductHelper.apples;
+import static java.math.BigDecimal.ROUND_HALF_UP;
 
 public class PercentageDiscount implements Offer {
 
@@ -21,13 +22,13 @@ public class PercentageDiscount implements Offer {
     @Override
     public Basket apply(Basket basket) {
         basket.getProducts().stream()
-                .filter(product -> product.getName().equals(apples().getName()))
+                .filter(product -> product.getName().equals(discountedProduct.getName()))
                 .forEach(product -> product.setDiscountPrice(setDiscountPrice(product)));
         return basket;
     }
 
-    private BigDecimal setDiscountPrice(Product apple) {
-        BigDecimal price = apple.getPrice();
+    private BigDecimal setDiscountPrice(Product product) {
+        BigDecimal price = product.getPrice();
         BigDecimal discount = price.divide(new BigDecimal("100.00")).multiply(percentage);
         return price.subtract(discount);
     }
