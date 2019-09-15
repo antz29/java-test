@@ -14,9 +14,12 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class PercentageDiscountTest {
+    
+    private Offer tenPercentOffApples = new PercentageDiscount();
+
     @Test
     public void emptyBasketRemainsUnchanged() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(apples(), 10));
+        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
         Basket basket = new Basket(offers);
 
         BigDecimal total = basket.calculateTotal();
@@ -25,8 +28,8 @@ public class PercentageDiscountTest {
     }
 
     @Test
-    public void applesAreDiscountedBy10Percent() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(apples(), 10));
+    public void oneAppleISDiscountedBy10Percent() {
+        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
         Basket basket = new Basket(offers, apples());
 
         BigDecimal total = basket.calculateTotal();
@@ -35,18 +38,8 @@ public class PercentageDiscountTest {
     }
 
     @Test
-    public void breadDiscountedBy50Percent() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(bread(), 50));
-        Basket basket = new Basket(offers, bread());
-
-        BigDecimal total = basket.calculateTotal();
-
-        assertThat(total.compareTo(new BigDecimal("0.40")), is(0));
-    }
-
-    @Test
     public void manyApplesAreDiscountedBy10Percent() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(apples(), 10));
+        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
         Basket basket = new Basket(offers, apples(), apples(), apples());
 
         BigDecimal total = basket.calculateTotal();
@@ -56,9 +49,9 @@ public class PercentageDiscountTest {
 
     @Test
     public void offerNotAppliedToOtherProducts() {
-        List<Offer> offers = Collections.singletonList(new PercentageDiscount(milk(), 10));
+        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
 
-        for (Product product : Arrays.asList(soup(), bread(), apples())) {
+        for (Product product : Arrays.asList(soup(), bread(), milk())) {
             Basket basket = new Basket(offers, product);
 
             BigDecimal total = basket.calculateTotal();

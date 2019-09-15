@@ -5,15 +5,16 @@ import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
 
+import static com.ford.henrysgroceries.products.ProductHelper.apples;
+
 public class PercentageDiscount implements Offer {
 
     private Product discountedProduct;
-
     private BigDecimal percentage;
 
-    public PercentageDiscount(Product discountedProduct, int percentage) {
-        this.discountedProduct = discountedProduct;
-        this.percentage = new BigDecimal(percentage);
+    public PercentageDiscount() {
+        this.discountedProduct = apples();
+        this.percentage = new BigDecimal(10);
     }
 
     @Override
