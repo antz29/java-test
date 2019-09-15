@@ -7,12 +7,12 @@ import java.math.BigDecimal;
 
 import static com.ford.henrysgroceries.products.ProductHelper.apples;
 
-public class PercentageDiscount implements Offer {
+public class TenPercentOffApplesOffer implements Offer {
 
     private Product discountedProduct;
     private BigDecimal percentage;
 
-    public PercentageDiscount() {
+    public TenPercentOffApplesOffer() {
         this.discountedProduct = apples();
         this.percentage = new BigDecimal(10);
     }

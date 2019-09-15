@@ -13,9 +13,9 @@ import static com.ford.henrysgroceries.products.ProductHelper.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class PercentageDiscountTest {
-    
-    private Offer tenPercentOffApples = new PercentageDiscount();
+public class TenPercentOffApplesOfferTest {
+
+    private Offer tenPercentOffApples = new TenPercentOffApplesOffer();
 
     @Test
     public void emptyBasketRemainsUnchanged() {
