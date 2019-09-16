@@ -10,10 +10,7 @@ import java.util.List;
 import static com.ford.henrysgroceries.products.ProductHelper.bread;
 import static com.ford.henrysgroceries.products.ProductHelper.soup;
 
-public class BuyTwoSoupsGetBreadHalfPriceOffer implements Offer {
-    private final LocalDate start;
-    private final LocalDate end;
-
+public class BuyTwoSoupsGetBreadHalfPriceOffer extends AbstractOffer {
     public BuyTwoSoupsGetBreadHalfPriceOffer(LocalDate today) {
         start = today.minusDays(1);
         end = start.plusDays(7);
@@ -42,9 +39,5 @@ public class BuyTwoSoupsGetBreadHalfPriceOffer implements Offer {
         }
 
         return basket;
-    }
-
-    private boolean notApplicable(LocalDate date) {
-        return date.isBefore(start) || date.isAfter(end);
     }
 }

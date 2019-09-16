@@ -9,10 +9,7 @@ import java.time.LocalDate;
 import static com.ford.henrysgroceries.products.ProductHelper.apples;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
-public class TenPercentOffApplesOffer implements Offer {
-
-    private final LocalDate start;
-    private final LocalDate end;
+public class TenPercentOffApplesOffer extends AbstractOffer {
 
     public TenPercentOffApplesOffer(LocalDate today) {
         start = today.plusDays(3);
@@ -28,10 +25,6 @@ public class TenPercentOffApplesOffer implements Offer {
                 .filter(product -> product.getName().equals(apples().getName()))
                 .forEach(product -> product.setDiscountPrice(setDiscountPrice(product)));
         return basket;
-    }
-
-    private boolean notApplicable(LocalDate date) {
-        return date.isBefore(start) || date.isAfter(end);
     }
 
     private BigDecimal setDiscountPrice(Product product) {
