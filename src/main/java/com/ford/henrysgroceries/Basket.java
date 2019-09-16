@@ -4,6 +4,7 @@ import com.ford.henrysgroceries.offers.Offer;
 import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,17 +51,22 @@ public class Basket {
 
     public void addProduct(Product product) {
         this.products.add(product);
+        calculateTotal();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Basket:\n");
         products.forEach(product -> display(sb, product));
-        sb.append("Total: £").append(calculateTotal()).append("\n");
+        sb.append("Total: ").append(format(calculateTotal())).append("\n");
         return sb.toString();
     }
 
     private StringBuilder display(StringBuilder sb, Product product) {
-        return sb.append(product.getName()).append(" ").append(product.getPrice()).append("\n");
+        return sb.append(product.getName()).append(" ").append(format(product.getDisplayPrice())).append("\n");
+    }
+
+    private String format(BigDecimal price) {
+        return NumberFormat.getCurrencyInstance().format(price);
     }
 }

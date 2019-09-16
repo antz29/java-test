@@ -35,6 +35,10 @@ public class Product {
         return discountPrice;
     }
 
+    public BigDecimal getDisplayPrice() {
+        return hasDiscount() ? discountPrice : price;
+    }
+
     public void setDiscountPrice(BigDecimal discountPrice) {
         this.discountPrice = discountPrice;
     }
