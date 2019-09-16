@@ -1,6 +1,14 @@
 package com.ford.henrysgroceries;
 
+import com.ford.henrysgroceries.offers.BuyTwoSoupsGetBreadHalfPriceOffer;
+import com.ford.henrysgroceries.offers.Offer;
+import com.ford.henrysgroceries.offers.TenPercentOffApplesOffer;
+
 import java.io.PrintStream;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import static com.ford.henrysgroceries.products.ProductHelper.*;
@@ -19,7 +27,10 @@ public class BasketRunner {
     }
 
     public static void main(String[] args) {
-        BasketRunner basketRunner = new BasketRunner(new Basket(), new Scanner(System.in), System.out);
+        Offer applesOffer = new TenPercentOffApplesOffer(LocalDate.now());
+        Offer breadOffer = new BuyTwoSoupsGetBreadHalfPriceOffer(LocalDate.now());
+        List<Offer> offers = Arrays.asList(applesOffer, breadOffer);
+        BasketRunner basketRunner = new BasketRunner(new Basket(offers), new Scanner(System.in), System.out);
         basketRunner.run();
     }
 
