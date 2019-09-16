@@ -35,7 +35,7 @@ public class BasketRunner {
     }
 
     void run() {
-        boolean flag = true;
+        boolean addMoreToBasket = true;
 
         do {
             printStream.print("Please enter the first letter of the product you wish to add to your basket: [S]oup, [B]read, [M]ilk, [A]pples or [Q]uit: ");
@@ -64,7 +64,7 @@ public class BasketRunner {
 
                 case "Q":
                     printStream.print("\n");
-                    flag = false;
+                    addMoreToBasket = false;
                     break;
 
                 default:
@@ -72,6 +72,6 @@ public class BasketRunner {
             }
 
             printStream.println(basket);
-        } while (flag);
+        } while (addMoreToBasket);
     }
 }
