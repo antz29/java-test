@@ -27,8 +27,9 @@ public class BasketRunner {
     }
 
     public static void main(String[] args) {
-        Offer applesOffer = new TenPercentOffApplesOffer(LocalDate.now());
-        Offer breadOffer = new BuyTwoSoupsGetBreadHalfPriceOffer(LocalDate.now());
+        LocalDate today = LocalDate.now();
+        Offer applesOffer = new TenPercentOffApplesOffer(today);
+        Offer breadOffer = new BuyTwoSoupsGetBreadHalfPriceOffer(today);
         List<Offer> offers = Arrays.asList(applesOffer, breadOffer);
         BasketRunner basketRunner = new BasketRunner(new Basket(offers), new Scanner(System.in), System.out);
         basketRunner.run();
