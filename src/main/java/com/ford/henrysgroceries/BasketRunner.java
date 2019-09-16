@@ -71,7 +71,8 @@ public class BasketRunner {
                     printStream.print("Product not recognised\n");
             }
 
-            printStream.println(basket);
+            if (addMoreToBasket)
+                printStream.println(basket);
         } while (addMoreToBasket);
     }
 }

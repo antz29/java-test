@@ -32,15 +32,11 @@ public class BasketRunnerTest {
 
     @Test
     public void addNothingToBasketThenQuit() {
-        when(basket.toString()).thenReturn("Basket:\nTotal: £0.00\n");
         BasketRunner basketRunner = new BasketRunner(basket, new Scanner("Q\n"), new PrintStream(output));
 
         basketRunner.run();
 
-        assertThat(output.toString(), is(
-                INSTRUCTIONS + "\n" +
-                        "Basket:\n" +
-                        "Total: £0.00\n\r\n"));
+        assertThat(output.toString(), is(INSTRUCTIONS + "\n"));
     }
 
     @Test
@@ -57,9 +53,6 @@ public class BasketRunnerTest {
                         "Milk £1.30\n" +
                         "Total: £1.30\n\r" +
                         "\n" +
-                        INSTRUCTIONS + "\n" +
-                        "Basket:\n" +
-                        "Milk £1.30\n" +
-                        "Total: £1.30\n\r\n"));
+                        INSTRUCTIONS + "\n"));
     }
 }
