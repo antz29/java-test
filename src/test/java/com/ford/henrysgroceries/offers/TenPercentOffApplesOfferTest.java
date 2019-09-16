@@ -45,7 +45,7 @@ public class TenPercentOffApplesOfferTest {
         Clock clock = Clock.offset(fixedClock, Duration.ofDays(2));
         Basket basket = new Basket(offers, clock, apples());
 
-        BigDecimal total = basket.calculateTotal( );
+        BigDecimal total = basket.calculateTotal();
 
         assertThat(total.compareTo(apples().getPrice()), is(0));
     }
