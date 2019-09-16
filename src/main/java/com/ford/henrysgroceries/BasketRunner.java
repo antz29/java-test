@@ -7,7 +7,6 @@ import com.ford.henrysgroceries.offers.TenPercentOffApplesOffer;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
