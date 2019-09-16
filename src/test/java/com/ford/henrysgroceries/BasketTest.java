@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.ford.henrysgroceries.products.ProductHelper.*;
-import static org.hamcrest.Matchers.is;
+import static com.ford.henrysgroceries.utils.EqualsBigDecimalMatcher.is;
 import static org.junit.Assert.assertThat;
 
 public class BasketTest {
@@ -29,7 +29,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+        assertThat(total, is(BigDecimal.ZERO));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+        assertThat(total, is(BigDecimal.ZERO));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class BasketTest {
 
             BigDecimal total = basket.calculateTotal();
 
-            assertThat(total.compareTo(product.getPrice()), is(0));
+            assertThat(total, is(product.getPrice()));
         }
     }
 
@@ -58,7 +58,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("2.10")), is(0));
+        assertThat(total, is(new BigDecimal("2.10")));
     }
 
     @Test
@@ -70,7 +70,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.50")), is(0));
+        assertThat(total, is(new BigDecimal("1.50")));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("3.15")), is(0));
+        assertThat(total, is(new BigDecimal("3.15")));
     }
 
     @Test
@@ -95,7 +95,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.90")), is(0));
+        assertThat(total, is(new BigDecimal("1.90")));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.84")), is(0));
+        assertThat(total, is(new BigDecimal("1.84")));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class BasketTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.97")), is(0));
+        assertThat(total, is(new BigDecimal("1.97")));
     }
 
     private void givenBasketHasProduct(Product product) {

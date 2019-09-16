@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.ford.henrysgroceries.products.ProductHelper.*;
-import static org.hamcrest.Matchers.is;
+import static com.ford.henrysgroceries.utils.EqualsBigDecimalMatcher.is;
 import static org.junit.Assert.assertThat;
 
 public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
@@ -25,7 +25,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+        assertThat(total, is(BigDecimal.ZERO));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("2.10")), is(0));
+        assertThat(total, is(new BigDecimal("2.10")));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.70")), is(0));
+        assertThat(total, is(new BigDecimal("1.70")));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.70")), is(0));
+        assertThat(total, is(new BigDecimal("1.70")));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("2.10")), is(0));
+        assertThat(total, is(new BigDecimal("2.10")));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.70")), is(0));
+        assertThat(total, is(new BigDecimal("1.70")));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("0.80")), is(0));
+        assertThat(total, is(new BigDecimal("0.80")));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("1.45")), is(0));
+        assertThat(total, is(new BigDecimal("1.45")));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("2.50")), is(0));
+        assertThat(total, is(new BigDecimal("2.50")));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("3.15")), is(0));
+        assertThat(total, is(new BigDecimal("3.15")));
     }
 
     @Test
@@ -119,7 +119,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("3.40")), is(0));
+        assertThat(total, is(new BigDecimal("3.40")));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class BuyTwoSoupsGetBreadHalfPriceOfferTest {
 
             BigDecimal total = basket.calculateTotal();
 
-            assertThat(total.compareTo(product.getPrice()), is(0));
+            assertThat(total, is(product.getPrice()));
         }
     }
 }

@@ -11,9 +11,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.ford.henrysgroceries.products.ProductHelper.*;
+import static com.ford.henrysgroceries.utils.EqualsBigDecimalMatcher.is;
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class TenPercentOffApplesOfferTest {
@@ -28,7 +28,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+        assertThat(total, is(BigDecimal.ZERO));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+        assertThat(total, is(BigDecimal.ZERO));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(apples().getPrice()), is(0));
+        assertThat(total, is(apples().getPrice()));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("0.09")), is(0));
+        assertThat(total, is(new BigDecimal("0.09")));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("0.09")), is(0));
+        assertThat(total, is(new BigDecimal("0.09")));
     }
 
     @Test
@@ -77,7 +77,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(apples().getPrice()), is(0));
+        assertThat(total, is(apples().getPrice()));
     }
 
     @Test
@@ -87,7 +87,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("0.09")), is(0));
+        assertThat(total, is(new BigDecimal("0.09")));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class TenPercentOffApplesOfferTest {
 
         BigDecimal total = basket.calculateTotal();
 
-        assertThat(total.compareTo(new BigDecimal("0.27")), is(0));
+        assertThat(total, is(new BigDecimal("0.27")));
     }
 
     @Test
@@ -107,7 +107,7 @@ public class TenPercentOffApplesOfferTest {
 
             BigDecimal total = basket.calculateTotal();
 
-            assertThat(total.compareTo(product.getPrice()), is(0));
+            assertThat(total, is(product.getPrice()));
         }
     }
 
