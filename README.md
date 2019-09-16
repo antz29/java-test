@@ -1,6 +1,11 @@
 # Java Exercise
 
-This is a simple exercise to allow you to demostrate your software engineering skillset. It's completly up to you how long you give yourself, stop when you're happy with the quality of your work, but we don't expect it to take too long.
+This is a simple exercise to allow you to demonstrate your software engineering skillset. It's completely up to you how long you give yourself, stop when you're happy with the quality of your work, but we don't expect it to take too long.
+
+## To Run
+ 1. First build with `mvn clean install`.
+ 2. Run with `java -jar /insert/path/to/your/maven/repository/henrys-groceries-1.0-SNAPSHOT-jar-with-dependencies.jar`.
+ 3. Alternatively, just run `BasketRunner` class in your IDE.
 
 ## Instructions
   1. Please fork this repository and work on your fork.
@@ -18,7 +23,7 @@ This is a simple exercise to allow you to demostrate your software engineering s
 
 A local shop, Henry’s Grocery, has asked you to author an IT solution for them to price up a basket of shopping for their customers.
 
-Henry’s Grocery, currently only stocks four items and has two promotions. These are as follows:
+Henry’s Grocery currently only stocks four items and has two promotions. These are as follows:
 
 ### Stock Items
         
