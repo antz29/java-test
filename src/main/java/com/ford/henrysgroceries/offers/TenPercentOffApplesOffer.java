@@ -4,25 +4,38 @@ import com.ford.henrysgroceries.Basket;
 import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import static com.ford.henrysgroceries.products.ProductHelper.apples;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 public class TenPercentOffApplesOffer implements Offer {
 
-    private Product discountedProduct;
-    private BigDecimal percentage;
+    private final Product discountedProduct;
+    private final BigDecimal percentage;
+    private final LocalDate start;
+    private final LocalDate end;
 
-    public TenPercentOffApplesOffer() {
-        this.discountedProduct = apples();
-        this.percentage = new BigDecimal(10);
+    public TenPercentOffApplesOffer(LocalDate today) {
+        discountedProduct = apples();
+        percentage = new BigDecimal(10);
+        start = today.plusDays(3);
+        end = today.plusMonths(1).with(lastDayOfMonth());
     }
 
     @Override
-    public Basket apply(Basket basket) {
+    public Basket apply(Basket basket, LocalDate date) {
+        if (notApplicable(date))
+            return basket;
+
         basket.getProducts().stream()
                 .filter(product -> product.getName().equals(discountedProduct.getName()))
                 .forEach(product -> product.setDiscountPrice(setDiscountPrice(product)));
         return basket;
+    }
+
+    private boolean notApplicable(LocalDate date) {
+        return date.isBefore(start) || date.isAfter(end);
     }
 
     private BigDecimal setDiscountPrice(Product product) {

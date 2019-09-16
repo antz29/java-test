@@ -4,33 +4,44 @@ import com.ford.henrysgroceries.offers.Offer;
 import com.ford.henrysgroceries.products.Product;
 
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Basket {
 
     private List<Product> products;
-
     private List<Offer> offers;
+    private Clock clock;
 
     public Basket() {
         products = new ArrayList<>();
         offers = new ArrayList<>();
     }
 
-    public Basket(List<Offer> offers, Product... products) {
-        this.products = Arrays.asList(products);
+    public Basket(List<Offer> offers) {
+        products = new ArrayList<>();
         this.offers = offers;
     }
 
+    public Basket(List<Offer> offers, Clock fixedClock, Product... products) {
+        this.products = Arrays.asList(products);
+        this.offers = offers;
+        clock = fixedClock;
+    }
+
     public BigDecimal calculateTotal() {
-        offers.forEach(offer -> offer.apply(this));
+        offers.forEach(offer -> offer.apply(this, getDate()));
 
         return products.stream()
                 .map(product -> product.hasDiscount() ? product.getDiscountPrice() : product.getPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private LocalDate getDate() {
+        return clock == null ? LocalDate.now() : LocalDate.now(clock);
     }
 
     public List<Product> getProducts() {

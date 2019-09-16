@@ -5,22 +5,26 @@ import com.ford.henrysgroceries.products.Product;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static com.ford.henrysgroceries.products.ProductHelper.*;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class TenPercentOffApplesOfferTest {
-
-    private Offer tenPercentOffApples = new TenPercentOffApplesOffer();
+    private Clock fixedClock = Clock.fixed(Instant.now(), ZoneId.systemDefault());
+    private LocalDate today = LocalDate.now(fixedClock);
+    private List<Offer> offers = Collections.singletonList(new TenPercentOffApplesOffer(today));
 
     @Test
-    public void emptyBasketRemainsUnchanged() {
-        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
-        Basket basket = new Basket(offers);
+    public void emptyBasketNoOffersTotalIsZero() {
+        List<Offer> offers = Collections.emptyList();
+        Basket basket = new Basket(offers, fixedClock);
 
         BigDecimal total = basket.calculateTotal();
 
@@ -28,9 +32,58 @@ public class TenPercentOffApplesOfferTest {
     }
 
     @Test
-    public void oneAppleISDiscountedBy10Percent() {
-        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
-        Basket basket = new Basket(offers, apples());
+    public void emptyBasketWithOffersTotalIsZero() {
+        Basket basket = new Basket(offers, fixedClock);
+
+        BigDecimal total = basket.calculateTotal();
+
+        assertThat(total.compareTo(BigDecimal.ZERO), is(0));
+    }
+
+    @Test
+    public void offerDoesNotApplyTwoDaysFromNow() {
+        Clock clock = Clock.offset(fixedClock, Duration.ofDays(2));
+        Basket basket = new Basket(offers, clock, apples());
+
+        BigDecimal total = basket.calculateTotal( );
+
+        assertThat(total.compareTo(apples().getPrice()), is(0));
+    }
+
+    @Test
+    public void offerStartsThreeDaysFromNow() {
+        Clock clock = Clock.offset(fixedClock, Duration.ofDays(3));
+        Basket basket = new Basket(offers, clock, apples());
+
+        BigDecimal total = basket.calculateTotal();
+
+        assertThat(total.compareTo(new BigDecimal("0.09")), is(0));
+    }
+
+    @Test
+    public void offerAppliesTillEndOfFollowingMonth() {
+        Clock clock = Clock.offset(fixedClock, lastDayOfferApplies());
+        Basket basket = new Basket(offers, clock, apples());
+
+        BigDecimal total = basket.calculateTotal();
+
+        assertThat(total.compareTo(new BigDecimal("0.09")), is(0));
+    }
+
+    @Test
+    public void offerDoesNotApplyOneDayAfterEndOfFollowingMonth() {
+        Clock clock = Clock.offset(fixedClock, lastDayOfferApplies().plusDays(1));
+        Basket basket = new Basket(offers, clock, apples());
+
+        BigDecimal total = basket.calculateTotal();
+
+        assertThat(total.compareTo(apples().getPrice()), is(0));
+    }
+
+    @Test
+    public void oneAppleIsDiscountedBy10Percent() {
+        Clock clock = Clock.offset(fixedClock, Duration.ofDays(10));
+        Basket basket = new Basket(offers, clock, apples());
 
         BigDecimal total = basket.calculateTotal();
 
@@ -39,8 +92,8 @@ public class TenPercentOffApplesOfferTest {
 
     @Test
     public void manyApplesAreDiscountedBy10Percent() {
-        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
-        Basket basket = new Basket(offers, apples(), apples(), apples());
+        Clock clock = Clock.offset(fixedClock, Duration.ofDays(10));
+        Basket basket = new Basket(offers, clock, apples(), apples(), apples());
 
         BigDecimal total = basket.calculateTotal();
 
@@ -49,14 +102,17 @@ public class TenPercentOffApplesOfferTest {
 
     @Test
     public void offerNotAppliedToOtherProducts() {
-        List<Offer> offers = Collections.singletonList(tenPercentOffApples);
-
         for (Product product : Arrays.asList(soup(), bread(), milk())) {
-            Basket basket = new Basket(offers, product);
+            Basket basket = new Basket(offers, fixedClock, product);
 
             BigDecimal total = basket.calculateTotal();
 
             assertThat(total.compareTo(product.getPrice()), is(0));
         }
+    }
+
+    private Duration lastDayOfferApplies() {
+        LocalDate lastDayOfferApplies = today.plusMonths(1).with(lastDayOfMonth());
+        return Duration.ofDays(DAYS.between(today, lastDayOfferApplies));
     }
 }
