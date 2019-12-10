@@ -1,9 +1,13 @@
 package com.test.harrys;
 
+import com.test.harrys.basket.ShoppingBasket;
 import com.test.harrys.model.Product;
+import com.test.harrys.model.ShoppingListItem;
 import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,9 +46,18 @@ public class ShoppingTill {
 
 
     public static BigDecimal calculateBill(String[] shoppingList) {
-
-        return null;
+        ShoppingBasket basket = new ShoppingBasket();
+        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+        BigDecimal invoiceSubTotal = basket.getShoppingListItems().stream().map(basketItem -> {
+            BigDecimal itemPrice = getProductPrice(basketItem.getProductCode());
+            BigDecimal lineTotal = itemPrice.multiply(new BigDecimal(basketItem.getQuantity()))
+                    .setScale( myNumDecimals, RoundingMode.HALF_UP);;
+            return lineTotal; }).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return invoiceSubTotal;
     }
 
+    static void setProductOffering(Set<Product> catalogue) {
+        ShoppingTill.PRODUCT_SET.addAll(catalogue);
+    }
 }
 

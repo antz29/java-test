@@ -28,7 +28,10 @@ public class ShoppingBasket {
      * @param item shopping list item
      */
     public void addItem(ShoppingListItem item) {
-
+        if(!listItem.add(item)){
+            listItem.stream().filter(lItem -> lItem.getProductCode().equals(item.getProductCode())).
+                    findAny().ifPresent(lItem -> lItem.increaseQuantity(item.getQuantity()));
+        }
     }
 
     public static BigDecimal getProductPrice(String productCode) {
