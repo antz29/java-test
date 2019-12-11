@@ -70,7 +70,7 @@ public class ShoppingTill {
         BigDecimal invoiceSubTotal = basket.getShoppingListItems().stream().map(basketItem -> {
             BigDecimal itemPrice = getProductPrice(basketItem.getProductCode());
             BigDecimal lineTotal = itemPrice.multiply(new BigDecimal(basketItem.getQuantity()))
-                    .setScale( myNumDecimals, RoundingMode.HALF_UP);;
+                    .setScale( myNumDecimals, RoundingMode.HALF_UP);
             return lineTotal; }).reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal discountTotal = basket.getShoppingListItems().stream().
                 map(bi -> calculateDiscountTotal(basket, bi))
@@ -85,6 +85,7 @@ public class ShoppingTill {
     }
 
     public static void setDiscounts(Set<ShoppingDiscount> discounts) {
+        ShoppingTill.discounts.clear();
         ShoppingTill.discounts.addAll(discounts);
     }
 }

@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static java.util.Objects.isNull;
+
 /**
  * @author kay
  *encapsulates discount that may be applied to a product based on number items purchased
@@ -40,7 +42,11 @@ public abstract class ShoppingDiscount {
     }
 
     public boolean isActive(LocalDate shoppingDate){
-        return startDate.isAfter(shoppingDate) && endDate.isBefore(shoppingDate);
+        boolean isActive = !(isNull(startDate) || isNull(endDate));
+        if(isActive){
+            isActive = startDate.isBefore(shoppingDate) && endDate.isAfter(shoppingDate);
+        }
+        return isActive;
     }
 
     public double getDiscountAmount() {
