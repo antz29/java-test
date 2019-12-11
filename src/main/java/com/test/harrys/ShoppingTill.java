@@ -2,6 +2,7 @@ package com.test.harrys;
 
 import com.test.harrys.basket.ShoppingBasket;
 import com.test.harrys.model.Product;
+import com.test.harrys.model.ShoppingDiscount;
 import com.test.harrys.model.ShoppingListItem;
 import org.apache.log4j.Logger;
 
@@ -9,11 +10,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 
 public class ShoppingTill {
     final static Logger LOGGER = Logger.getLogger(ShoppingTill.class);
+
+    private static final Set<ShoppingDiscount> discounts = new HashSet<>();
 
     private static final Set<Product> PRODUCT_SET = new HashSet<>();
 
@@ -43,9 +47,24 @@ public class ShoppingTill {
         return searchResult.getPrice();
     }
 
+    /**
+     * adds any discounts entries to the invoice if any apply to the items purchased
+     * @param listItem item purchased
+     * @return total discount amount for item purchased
+     */
+    public static BigDecimal calculateDiscountTotal(ShoppingBasket basket, ShoppingListItem listItem){
+        BigDecimal discountAmount = BigDecimal.ZERO;
+        Optional<ShoppingDiscount> discount =
+                discounts.stream().
+                        filter(d -> d.getProductCode().equals(listItem.getProductCode()))
+                        .findFirst();
+        if(discount.isPresent()){
+            discountAmount = discount.get().calculateDiscountAmount(basket);
+        }
+        return discountAmount;
+    }
 
-
-    public static BigDecimal calculateBill(String[] shoppingList) {
+    static BigDecimal calculateBill(String[] shoppingList) {
         ShoppingBasket basket = new ShoppingBasket();
         Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
         BigDecimal invoiceSubTotal = basket.getShoppingListItems().stream().map(basketItem -> {
@@ -53,11 +72,20 @@ public class ShoppingTill {
             BigDecimal lineTotal = itemPrice.multiply(new BigDecimal(basketItem.getQuantity()))
                     .setScale( myNumDecimals, RoundingMode.HALF_UP);;
             return lineTotal; }).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal discountTotal = basket.getShoppingListItems().stream().
+                map(bi -> calculateDiscountTotal(basket, bi))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        invoiceSubTotal = invoiceSubTotal.subtract(discountTotal);
+        
         return invoiceSubTotal;
     }
 
     static void setProductOffering(Set<Product> catalogue) {
         ShoppingTill.PRODUCT_SET.addAll(catalogue);
+    }
+
+    public static void setDiscounts(Set<ShoppingDiscount> discounts) {
+        ShoppingTill.discounts.addAll(discounts);
     }
 }
 

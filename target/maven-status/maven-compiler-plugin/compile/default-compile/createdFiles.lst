@@ -1,4 +1,5 @@
 com/test/harrys/basket/ShoppingBasket.class
 com/test/harrys/model/Product.class
+com/test/harrys/model/ShoppingDiscount.class
 com/test/harrys/model/ShoppingListItem.class
 com/test/harrys/ShoppingTill.class

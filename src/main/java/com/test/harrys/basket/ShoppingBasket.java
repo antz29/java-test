@@ -6,8 +6,10 @@ import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.time.LocalDate;
 
 
 /**
@@ -15,12 +17,14 @@ import java.util.Set;
  *encapsulates a shopping basket
  */
 public class ShoppingBasket {
+    private LocalDate shoppingDate;
+
     final static Logger LOGGER = Logger.getLogger(ShoppingBasket.class);
 
     private final Set<ShoppingListItem> listItem = new HashSet<>();
 
     public ShoppingBasket() {
-
+        shoppingDate = LocalDate.now();
     }
 
     /**
@@ -42,4 +46,11 @@ public class ShoppingBasket {
         return this.listItem;
     }
 
+    public LocalDate getShoppingDate() {
+        return shoppingDate;
+    }
+
+    public void setShoppingDate(LocalDate shoppingDate) {
+        this.shoppingDate = shoppingDate;
+    }
 }
