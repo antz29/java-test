@@ -64,9 +64,7 @@ public class ShoppingTill {
         return discountAmount;
     }
 
-    static BigDecimal calculateBill(String[] shoppingList) {
-        ShoppingBasket basket = new ShoppingBasket();
-        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+    static BigDecimal calculateBill(ShoppingBasket basket) {
         BigDecimal invoiceSubTotal = basket.getShoppingListItems().stream().map(basketItem -> {
             BigDecimal itemPrice = getProductPrice(basketItem.getProductCode());
             BigDecimal lineTotal = itemPrice.multiply(new BigDecimal(basketItem.getQuantity()))
@@ -76,8 +74,13 @@ public class ShoppingTill {
                 map(bi -> calculateDiscountTotal(basket, bi))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         invoiceSubTotal = invoiceSubTotal.subtract(discountTotal);
-        
         return invoiceSubTotal;
+    }
+
+    static BigDecimal calculateBill(String[] shoppingList) {
+        ShoppingBasket basket = new ShoppingBasket();
+        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+        return calculateBill(basket);
     }
 
     static void setProductOffering(Set<Product> catalogue) {

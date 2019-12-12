@@ -13,6 +13,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.DoubleStream;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -87,7 +88,7 @@ public class SuperMarketTest {
     }
 
     @Test
-    public void applesAndABottleOfMilk(){
+    public void sixApplesAndABottleOfMilkBoughtToday(){
         ShoppingTill.setDiscounts(Set.of(createApplesDiscount()));
         String[] shoppingList =
                 {"apple", "apple", "apple","apple","apple","apple","milk"};
@@ -95,6 +96,24 @@ public class SuperMarketTest {
         BigDecimal total = new BigDecimal(expectedTotal).
                 setScale( 2, RoundingMode.HALF_UP);
         BigDecimal billTotal = ShoppingTill.calculateBill(shoppingList);
+        assertEquals(total, billTotal);
+    }
+
+    @Test
+    public void sixApplesAndABottleOfMilkBoughtInFiveDays(){
+        ShoppingTill.setDiscounts(Set.of(createApplesDiscount()));
+        String[] shoppingList =
+                {"apple", "apple", "apple","apple","apple","apple","milk"};
+        Double expectedTotal = 1.84;
+        BigDecimal total = new BigDecimal(expectedTotal).
+                setScale( 2, RoundingMode.HALF_UP);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+        basket.setShoppingDate(LocalDate.now().plus(5,ChronoUnit.DAYS));
+
+
+        BigDecimal billTotal = ShoppingTill.calculateBill(basket);
         assertEquals(total, billTotal);
     }
 
@@ -127,11 +146,13 @@ public class SuperMarketTest {
             @Override
             public BigDecimal calculateDiscountAmount(ShoppingBasket basket) {
                 BigDecimal discount = BigDecimal.ZERO;
+
                 if(isActive(basket.getShoppingDate())){
-                    discount = basket.getShoppingListItems().stream()
+                    OptionalDouble opt = basket.getShoppingListItems().stream()
                             .filter(item -> item.getProductCode().equals(getProductCode()))
-                            .map(item -> new BigDecimal( getDiscountAmount() * item.getQuantity()))
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+                            .mapToDouble(item ->  getDiscountAmount() * item.getQuantity() *
+                                    ShoppingTill.getProductPrice(getProductCode()).doubleValue()).findFirst();
+                    discount = new BigDecimal( opt.orElse(0)).setScale( 2, RoundingMode.HALF_UP);
                 }
                 return discount;
             }
