@@ -4,22 +4,24 @@ import com.test.harrys.basket.ShoppingBasket;
 import com.test.harrys.model.Product;
 import com.test.harrys.model.ShoppingDiscount;
 import com.test.harrys.model.ShoppingListItem;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.rules.ExpectedException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.DoubleStream;
 
+import static com.test.harrys.ShoppingTill.*;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 public class SuperMarketTest {
+
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
 
     @BeforeClass
     public static void init(){
@@ -47,22 +49,51 @@ public class SuperMarketTest {
         product.setPrice(new BigDecimal("1.30"));
         product.setProductCode("milk");
         products.add(product);
+        setProductOffering(products);
+    }
 
-        ShoppingTill.setProductOffering(products);
-        //addDiscounts();
+    @Test
+    public void whenItemsAreAddedToBaskeItemShouldTally(){
+        ShoppingBasket basket = new ShoppingBasket( );
+        ShoppingListItem listItem = new ShoppingListItem("apple");
+        basket.addItem(listItem);
+        basket.addItem(listItem);
+        Collection<ShoppingListItem> items = basket.getShoppingListItems();
+        assertTrue(items.contains(listItem));
+        Optional<ShoppingListItem> optionalItem =
+                items.stream().filter(lineItem -> lineItem.getProductCode().equals("apple")).findFirst();
+        assertEquals(2,optionalItem.get().getQuantity(),0.00001);
+    }
 
+    @Test
+    public void whenShoppingItemIsAddedToBasketItShouldBeAvaialble(){
+        ShoppingBasket basket = new ShoppingBasket( );
+        ShoppingListItem listItem = new ShoppingListItem("apple");
+        basket.addItem(listItem);
+        Collection<ShoppingListItem> items = basket.getShoppingListItems();
+        assertTrue(items.contains(listItem));
+    }
+
+
+    @Test()
+    public void attemptToAddInvalidItemToBasketShouldThrowException(){
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Cannot find product with product code : ");
+        ShoppingBasket basket = new ShoppingBasket( );
+        ShoppingListItem listItem = new ShoppingListItem("bananas");
+        basket.addItem(listItem);
     }
 
 
     @Test
     public void calculateTotalTest(){
-        Double expectedTotal =
+        double expectedTotal =
             0.10 + 0.10 + 0.65 + 0.80 + 0.80 + 1.30;
         BigDecimal total = new BigDecimal(expectedTotal).
                 setScale( 2, RoundingMode.HALF_UP);;
         String[] shoppingList =
                 {"apple", "apple", "soup","bread","bread","milk"};
-        BigDecimal billTotal = ShoppingTill.calculateBill(shoppingList);
+        BigDecimal billTotal = calculateBill(shoppingList);
         assertEquals(total, billTotal);
     }
 
@@ -70,41 +101,41 @@ public class SuperMarketTest {
     public void calculateTotalsAfterDiscounts(){
         ShoppingTill.setDiscounts(Set.of(createDiscountWithNoDateCheck()));
 
-        Double expectedTotal =
+        double expectedTotal =
             0.10 + 0.10 + 0.65 + 0.65 + 0.80 + 0.80 + 1.30 - 0.40;
         BigDecimal total = new BigDecimal(expectedTotal).
                 setScale( 2, RoundingMode.HALF_UP);;
         String[] shoppingList =
                 {"apple", "apple", "soup","soup","bread","bread","milk"};
-        BigDecimal billTotal = ShoppingTill.calculateBill(shoppingList);
+        BigDecimal billTotal = calculateBill(shoppingList);
         assertEquals(total, billTotal);
     }
 
     @Test
     public void determineIfDiscountIsActive(){
-        ShoppingDiscount discount = createDiscountWithDateCheck();
+        ShoppingDiscount discount = createSoupDiscount();
         assertTrue(discount.isActive(LocalDate.now()));
         assertFalse(discount.isActive(LocalDate.now().plus(8,ChronoUnit.DAYS)));
     }
 
     @Test
     public void sixApplesAndABottleOfMilkBoughtToday(){
-        ShoppingTill.setDiscounts(Set.of(createApplesDiscount()));
+        setDiscounts(Set.of(createApplesDiscount()));
         String[] shoppingList =
                 {"apple", "apple", "apple","apple","apple","apple","milk"};
-        Double expectedTotal = 1.90;
+        double expectedTotal = 1.90;
         BigDecimal total = new BigDecimal(expectedTotal).
                 setScale( 2, RoundingMode.HALF_UP);
-        BigDecimal billTotal = ShoppingTill.calculateBill(shoppingList);
+        BigDecimal billTotal = calculateBill(shoppingList);
         assertEquals(total, billTotal);
     }
 
     @Test
     public void sixApplesAndABottleOfMilkBoughtInFiveDays(){
-        ShoppingTill.setDiscounts(Set.of(createApplesDiscount()));
+        setDiscounts(Set.of(createApplesDiscount()));
         String[] shoppingList =
-                {"apple", "apple", "apple","apple","apple","apple","milk"};
-        Double expectedTotal = 1.84;
+                {"apple","apple", "apple","apple","apple","apple","milk"};
+        double expectedTotal = 1.84;
         BigDecimal total = new BigDecimal(expectedTotal).
                 setScale( 2, RoundingMode.HALF_UP);
 
@@ -112,8 +143,41 @@ public class SuperMarketTest {
         Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
         basket.setShoppingDate(LocalDate.now().plus(5,ChronoUnit.DAYS));
 
+        BigDecimal billTotal = calculateBill(basket);
+        assertEquals(total, billTotal);
+    }
 
-        BigDecimal billTotal = ShoppingTill.calculateBill(basket);
+    @Test
+    public void threeSoupTinsTwoLoafBoughtToday(){
+        setDiscounts(Set.of(createSoupDiscount()));
+        String[] shoppingList =
+                {"soup","soup","soup","bread","bread"};
+        double expectedTotal = 3.15;
+        BigDecimal total = new BigDecimal(expectedTotal).
+                setScale( 2, RoundingMode.HALF_UP);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+        basket.setShoppingDate(LocalDate.now());
+
+        BigDecimal billTotal = calculateBill(basket);
+        assertEquals(total, billTotal);
+    }
+
+    @Test
+    public void threeApplesTwoSoupTinsOneLoafBoughtInFiveDays(){
+        setDiscounts(Set.of(createApplesDiscount(),createSoupDiscount()));
+        String[] shoppingList =
+                {"apple","apple", "apple","soup","soup","bread"};
+        double expectedTotal = 1.97;
+        BigDecimal total = new BigDecimal(expectedTotal).
+                setScale( 2, RoundingMode.HALF_UP);
+
+        ShoppingBasket basket = new ShoppingBasket();
+        Arrays.stream(shoppingList).forEach(p ->  basket.addItem(new ShoppingListItem(p)));
+        basket.setShoppingDate(LocalDate.now().plus(5,ChronoUnit.DAYS));
+
+        BigDecimal billTotal = calculateBill(basket);
         assertEquals(total, billTotal);
     }
 
@@ -126,7 +190,7 @@ public class SuperMarketTest {
                 if(items.contains(new ShoppingListItem("bread"))){
                     Optional<ShoppingListItem> op =
                             items.stream().filter(item -> item.getProductCode().equals(getProductCode()) &&
-                                    item.getQuantity() >= getTriggerQuantity()).findAny();// check multiles of trigger
+                                    item.getQuantity() >= getTriggerQuantity()).findAny();
                     if(op.isPresent()){
                         discount = BigDecimal.valueOf(0.40);
                     }
@@ -148,11 +212,12 @@ public class SuperMarketTest {
                 BigDecimal discount = BigDecimal.ZERO;
 
                 if(isActive(basket.getShoppingDate())){
-                    OptionalDouble opt = basket.getShoppingListItems().stream()
+                    double discountAmount = basket.getShoppingListItems().stream()
                             .filter(item -> item.getProductCode().equals(getProductCode()))
                             .mapToDouble(item ->  getDiscountAmount() * item.getQuantity() *
-                                    ShoppingTill.getProductPrice(getProductCode()).doubleValue()).findFirst();
-                    discount = new BigDecimal( opt.orElse(0)).setScale( 2, RoundingMode.HALF_UP);
+                                    getProductPrice(getProductCode()).doubleValue())
+                            .findFirst().orElse(0);
+                    discount = new BigDecimal( discountAmount).setScale( 2, RoundingMode.HALF_UP);
                 }
                 return discount;
             }
@@ -167,18 +232,18 @@ public class SuperMarketTest {
         return discount;
     }
 
-    private ShoppingDiscount createDiscountWithDateCheck(){
+    private ShoppingDiscount createSoupDiscount(){
         ShoppingDiscount discount = new ShoppingDiscount() {
             @Override
             public BigDecimal calculateDiscountAmount(ShoppingBasket basket) {
                 BigDecimal discount = BigDecimal.ZERO;
                 Collection<ShoppingListItem> items = basket.getShoppingListItems();
                 if(items.contains(new ShoppingListItem("bread")) && isActive(basket.getShoppingDate())){
-                    Optional<ShoppingListItem> op =
-                            items.stream().filter(item -> item.getProductCode().equals(getProductCode()) &&
-                                    item.getQuantity() >= getTriggerQuantity()).findAny();// check multiles of trigger
-                    if(op.isPresent()){
-                        discount = BigDecimal.valueOf(0.40);
+                    Optional<ShoppingListItem> listItem = items.stream().filter(item ->
+                            item.getProductCode().equals(getProductCode()) &&
+                                    item.getQuantity() >= getTriggerQuantity()).findAny();
+                    if(listItem.isPresent()){
+                        discount = BigDecimal.valueOf(getProductPrice("bread").doubleValue() / 2);
                     }
                 }
                 return discount;
@@ -197,52 +262,5 @@ public class SuperMarketTest {
     @After
     public void tearDown(){
         ShoppingTill.setDiscounts(Collections.EMPTY_SET);
-
     }
-
-    public static void addDiscounts(){// will do dates later
-        Set<ShoppingDiscount> discounts = new HashSet<>();
-
-
-        ShoppingDiscount discount = new ShoppingDiscount() {
-            @Override
-            public BigDecimal calculateDiscountAmount(ShoppingBasket basket) {
-                BigDecimal discount = BigDecimal.ZERO;
-                Collection<ShoppingListItem> items = basket.getShoppingListItems();
-                if(items.contains(new ShoppingListItem("bread")) && isActive(basket.getShoppingDate())){
-                    Optional<ShoppingListItem> op =
-                            items.stream().filter(item -> item.getProductCode().equals(getProductCode()) &&
-                                    item.getQuantity() >= getTriggerQuantity()).findAny();// check multiles of trigger
-                    if(op.isPresent()){
-                        discount = BigDecimal.valueOf(0.40);
-                    }
-                }
-                return discount;
-            }
-        };
-        discount.setStartDate(LocalDate.now());
-        discount.setEndDate(LocalDate.now());
-        discount.setDiscountAmount(0.5);
-        discount.setProductCode("soup");
-        discount.setTriggerQuantity(2.0);
-        discount.setDiscountDescription("Buy 2 tins of soup and get a loaf of bread half price");
-        discounts.add(discount);
-
-        discount = new ShoppingDiscount() {
-            @Override
-            public BigDecimal calculateDiscountAmount(ShoppingBasket basket) {
-                return null;
-            }
-        };
-
-        discount.setDiscountAmount(0.333);
-        discount.setProductCode("Lime");
-        discount.setTriggerQuantity(3.0);
-        discount.setDiscountDescription("Apples have a 10% discount");
-        discounts.add(discount);
-
-        ShoppingTill.setDiscounts(discounts);
-    }
-
-
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="5" failures="0" name="com.test.harrys.SuperMarketTest" time="0.03" errors="0" skipped="0">
+<testsuite tests="10" failures="0" name="com.test.harrys.SuperMarketTest" time="0.05" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="11.0.5+10-LTS"/>
@@ -62,9 +62,14 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.test.harrys.SuperMarketTest" name="determineIfDiscountIsActive" time="0.022"/>
-  <testcase classname="com.test.harrys.SuperMarketTest" name="calculateTotalsAfterDiscounts" time="0.008"/>
-  <testcase classname="com.test.harrys.SuperMarketTest" name="sixApplesAndABottleOfMilkBoughtInFiveDays" time="0"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="whenItemsAreAddedToBaskeItemShouldTally" time="0.027"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="threeSoupTinsTwoLoafBoughtToday" time="0.008"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="threeApplesTwoSoupTinsOneLoafBoughtInFiveDays" time="0.003"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="determineIfDiscountIsActive" time="0"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="attemptToAddInvalidItemToBasketShouldThrowException" time="0.007"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="calculateTotalsAfterDiscounts" time="0.002"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="whenShoppingItemIsAddedToBasketItShouldBeAvaialble" time="0"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="sixApplesAndABottleOfMilkBoughtInFiveDays" time="0.002"/>
   <testcase classname="com.test.harrys.SuperMarketTest" name="sixApplesAndABottleOfMilkBoughtToday" time="0"/>
-  <testcase classname="com.test.harrys.SuperMarketTest" name="calculateTotalTest" time="0"/>
+  <testcase classname="com.test.harrys.SuperMarketTest" name="calculateTotalTest" time="0.001"/>
 </testsuite>

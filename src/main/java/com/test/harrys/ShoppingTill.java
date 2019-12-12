@@ -29,12 +29,11 @@ public class ShoppingTill {
      * @return gets product instance
      */
     public static Product getProductByCode(String productCode) {
-        Product searchResult = PRODUCT_SET.stream()
+        return PRODUCT_SET.stream()
                 .filter(product -> product.getProductCode().equals(productCode))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException(
                         String.format("Cannot find product with product code : [%s] in product offerings",
                         productCode)));
-        return searchResult;
     }
 
     /**
@@ -43,8 +42,7 @@ public class ShoppingTill {
      * @return price of related product
      */
     public static BigDecimal getProductPrice(String productCode){
-        Product searchResult = getProductByCode(productCode);
-        return searchResult.getPrice();
+        return getProductByCode(productCode).getPrice();
     }
 
     /**
@@ -54,27 +52,21 @@ public class ShoppingTill {
      */
     public static BigDecimal calculateDiscountTotal(ShoppingBasket basket, ShoppingListItem listItem){
         BigDecimal discountAmount = BigDecimal.ZERO;
-        Optional<ShoppingDiscount> discount =
-                discounts.stream().
-                        filter(d -> d.getProductCode().equals(listItem.getProductCode()))
+        Optional<ShoppingDiscount> shoppingDiscount = discounts.stream()
+                        .filter(discount -> discount.getProductCode().equals(listItem.getProductCode()))
                         .findFirst();
-        if(discount.isPresent()){
-            discountAmount = discount.get().calculateDiscountAmount(basket);
+        if(shoppingDiscount.isPresent()){
+            discountAmount = shoppingDiscount.get().calculateDiscountAmount(basket);
         }
         return discountAmount;
     }
 
     static BigDecimal calculateBill(ShoppingBasket basket) {
-        BigDecimal invoiceSubTotal = basket.getShoppingListItems().stream().map(basketItem -> {
-            BigDecimal itemPrice = getProductPrice(basketItem.getProductCode());
-            BigDecimal lineTotal = itemPrice.multiply(new BigDecimal(basketItem.getQuantity()))
-                    .setScale( myNumDecimals, RoundingMode.HALF_UP);
-            return lineTotal; }).reduce(BigDecimal.ZERO, BigDecimal::add);
-        BigDecimal discountTotal = basket.getShoppingListItems().stream().
-                map(bi -> calculateDiscountTotal(basket, bi))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-        invoiceSubTotal = invoiceSubTotal.subtract(discountTotal);
-        return invoiceSubTotal;
+        double subTotal = basket.getShoppingListItems().stream().mapToDouble(basketItem ->
+            getProductPrice(basketItem.getProductCode()).doubleValue() * basketItem.getQuantity()).sum();
+        double discountTotal = basket.getShoppingListItems().stream().mapToDouble(items ->
+                calculateDiscountTotal(basket, items).doubleValue()).sum();
+        return BigDecimal.valueOf(subTotal - discountTotal).setScale( myNumDecimals, RoundingMode.HALF_UP);
     }
 
     static BigDecimal calculateBill(String[] shoppingList) {

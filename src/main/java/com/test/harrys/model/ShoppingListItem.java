@@ -15,11 +15,6 @@ public class ShoppingListItem {
     private String productCode;
     private int quantity;
 
-    public ShoppingListItem(String productCode, int quantity){
-        this(productCode);
-        this.quantity = quantity;
-    }
-
     public ShoppingListItem(String productCode){
         ShoppingTill.getProductByCode(productCode);
         this.productCode = productCode;
