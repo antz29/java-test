@@ -8,10 +8,9 @@ import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 
 public class ShoppingTill {
@@ -75,13 +74,18 @@ public class ShoppingTill {
         return calculateBill(basket);
     }
 
-    static void setProductOffering(Set<Product> catalogue) {
+    public static void setProductOffering(Set<Product> catalogue) {
         ShoppingTill.PRODUCT_SET.addAll(catalogue);
     }
 
     public static void setDiscounts(Set<ShoppingDiscount> discounts) {
         ShoppingTill.discounts.clear();
         ShoppingTill.discounts.addAll(discounts);
+    }
+
+
+    public static Set<Product> getProductOffering() {
+        return Collections.unmodifiableSet(PRODUCT_SET);
     }
 }
 

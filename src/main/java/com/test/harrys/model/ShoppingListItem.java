@@ -4,6 +4,8 @@ import com.test.harrys.ShoppingTill;
 
 import java.util.Objects;
 
+import static com.test.harrys.ShoppingTill.getProductByCode;
+
 /**
  * @author kay
  *Class encapsulates total number of a specific item purchased
@@ -16,7 +18,7 @@ public class ShoppingListItem {
     private int quantity;
 
     public ShoppingListItem(String productCode){
-        ShoppingTill.getProductByCode(productCode);
+        getProductByCode(productCode);
         this.productCode = productCode;
         this.quantity = 1;
     }
@@ -39,6 +41,10 @@ public class ShoppingListItem {
 
     public void increaseQuantity(int quantity) {
         this.quantity += quantity;
+    }
+
+    public void decreaseQuantity(int quantity) {
+        this.quantity -= quantity;
     }
 
     @Override
