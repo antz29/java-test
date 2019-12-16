@@ -1,0 +1,8 @@
+target/
+bin/
+
+## Intellij IDEA ##
+.idea
+.iml
+
+*.log
