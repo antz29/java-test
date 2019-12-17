@@ -1,5 +1,6 @@
 package com.industriallogic.henrysgroceries.provider;
 
+import com.industriallogic.henrysgroceries.exception.ProductNotFoundException;
 import com.industriallogic.henrysgroceries.model.MeasurementUnit;
 import com.industriallogic.henrysgroceries.model.Product;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -20,24 +20,21 @@ public class ProductProviderTest {
     private  ProductProvider productProvider;
 
     @Test
-    public void getProduct() {
-        Optional<Product> apple = Optional.of(new Product("A123", "Apple", BigDecimal.valueOf(.10), MeasurementUnit.SINGLE));
+    public void getProduct() throws ProductNotFoundException {
+        Product  apple =  new Product("A123", "Apple", BigDecimal.valueOf(.10), MeasurementUnit.SINGLE);
         when(productProvider.getProduct("Apples")).thenReturn(apple);
         assertEquals(productProvider.getProduct("Apples"), apple);
     }
 
-    @Test
-    public void getProductWithSpace() {
-        Optional<Product> noProduct = Optional.empty();
-        when(productProvider.getProduct(" ")).thenReturn(noProduct);
-        assertEquals(productProvider.getProduct(" "), noProduct);
+    @Test(expected=ProductNotFoundException.class)
+    public void getProductWithSpace() throws ProductNotFoundException {
+        when(productProvider.getProduct(" ")).thenThrow(new ProductNotFoundException("Product Not found"));
+        productProvider.getProduct(" ");
     }
 
-    @Test
-    public void getInvalidProduct() {
-        Optional<Product> noProduct = Optional.empty();
-        when(productProvider.getProduct("chocolate")).thenReturn(noProduct);
-        assertEquals(productProvider.getProduct("chocolate"), noProduct);
+    @Test(expected=ProductNotFoundException.class)
+    public void getInvalidProduct() throws ProductNotFoundException {
+        when(productProvider.getProduct("chocolate")).thenThrow(new ProductNotFoundException("Product Not found"));
+        productProvider.getProduct("chocolate");
     }
-
 }

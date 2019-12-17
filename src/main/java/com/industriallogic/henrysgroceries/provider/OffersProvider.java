@@ -1,5 +1,6 @@
 package com.industriallogic.henrysgroceries.provider;
 
+import com.industriallogic.henrysgroceries.exception.ProductNotFoundException;
 import com.industriallogic.henrysgroceries.model.Product;
 import com.industriallogic.henrysgroceries.offers.ComboDiscountOffer;
 import com.industriallogic.henrysgroceries.offers.Offer;
@@ -28,10 +29,10 @@ public class OffersProvider {
      * Populate the offers available
      */
     @PostConstruct
-    public void init() {
-        Product apples = productProvider.getProduct("Apples").get();
-        Product soup = productProvider.getProduct("Soup").get();
-        Product bread = productProvider.getProduct("Bread").get();
+    public void init() throws ProductNotFoundException {
+        Product apples = productProvider.getProduct("Apples") ;
+        Product soup = productProvider.getProduct("Soup") ;
+        Product bread = productProvider.getProduct("Bread");
 
         LocalDate firstOfNextMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
         LocalDate endOfNextMonth = firstOfNextMonth.with(TemporalAdjusters.lastDayOfMonth());

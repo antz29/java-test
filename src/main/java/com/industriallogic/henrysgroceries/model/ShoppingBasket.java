@@ -26,7 +26,7 @@ public class ShoppingBasket {
         return this.shoppingDate;
     }
 
-    public Map<Product, Integer> getBasket() {
+    public Map<Product, Integer> getProductsInBasket() {
         return Collections.unmodifiableMap(basket);
     }
 

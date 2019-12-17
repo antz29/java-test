@@ -1,7 +1,9 @@
 package com.industriallogic.henrysgroceries.provider;
 
+import com.industriallogic.henrysgroceries.exception.ProductNotFoundException;
 import com.industriallogic.henrysgroceries.model.MeasurementUnit;
 import com.industriallogic.henrysgroceries.model.Product;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class ProductProvider {
 
     private Map<String, Product> productList;
@@ -26,7 +29,10 @@ public class ProductProvider {
         productList = Collections.unmodifiableMap(stock);
     }
 
-    public Optional<Product> getProduct(String productName) {
-        return Optional.ofNullable(productList.get(productName.toUpperCase()));
+    public Product getProduct(String productName) throws ProductNotFoundException {
+        return Optional.ofNullable(productList.get(productName.toUpperCase())).orElseThrow(() -> {
+            LOGGER.error("No Product found for {} ", productName);
+            return new ProductNotFoundException("No Product found for - " + productName);
+        });
     }
 }
