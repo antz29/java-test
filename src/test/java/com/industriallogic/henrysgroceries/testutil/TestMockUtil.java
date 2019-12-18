@@ -2,7 +2,6 @@ package com.industriallogic.henrysgroceries.testutil;
 
 import com.industriallogic.henrysgroceries.model.MeasurementUnit;
 import com.industriallogic.henrysgroceries.model.Product;
-import com.industriallogic.henrysgroceries.model.ShoppingBasket;
 import com.industriallogic.henrysgroceries.offers.ComboDiscountOffer;
 import com.industriallogic.henrysgroceries.offers.Offer;
 import com.industriallogic.henrysgroceries.offers.PercentageDiscountOffer;
@@ -14,9 +13,16 @@ import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
-import static org.mockito.Mockito.when;
-
 public class TestMockUtil {
+
+
+    @SneakyThrows
+    public static Map<Product, Integer> get2Soup1BreadProductMap(ProductProvider productProvider ) {
+        return new HashMap<Product, Integer>() {{
+            put(productProvider.getProduct("Soup"), 2);
+            put(productProvider.getProduct("Bread"), 1);
+        }};
+    }
 
     public static List<Offer> getOffersList() {
         Product apples = new Product("A123", "Apple", BigDecimal.valueOf(.10), MeasurementUnit.SINGLE);
@@ -39,16 +45,4 @@ public class TestMockUtil {
         return products;
     }
 
-    @SneakyThrows
-    public static ShoppingBasket getBasket(ProductProvider productProvider, String... productNames) {
-        when(productProvider.getProduct("Apples")).thenReturn(productList().get("APPLES"));
-        when(productProvider.getProduct("Bread")).thenReturn(productList().get("BREAD"));
-        when(productProvider.getProduct("Milk")).thenReturn(productList().get("MILK"));
-        when(productProvider.getProduct("Soup")).thenReturn(productList().get("SOUP"));
-        ShoppingBasket basket = new ShoppingBasket();
-        for (String productName : productNames) {
-            basket.addProductToBasket(productProvider.getProduct(productName));
-        }
-        return basket;
-    }
 }

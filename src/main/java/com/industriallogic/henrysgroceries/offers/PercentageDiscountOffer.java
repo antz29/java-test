@@ -23,6 +23,11 @@ public class PercentageDiscountOffer implements Offer {
     @NonNull
     private LocalDate offerEndDate;
 
+    /**
+     * Apples percentage discount offer if basket qualifies for the offer
+     * @param basket - basket with products
+     * @return - discount amount to be applied on the basket
+     */
     public BigDecimal getDiscount(ShoppingBasket basket) {
         if (isOfferStillValid(basket.getShoppingDate(), offerStartDate, offerEndDate)) {
             Integer productQuantity = basket.getProductsInBasket().getOrDefault(product, 0);

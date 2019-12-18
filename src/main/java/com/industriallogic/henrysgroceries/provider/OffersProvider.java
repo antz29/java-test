@@ -25,8 +25,10 @@ public class OffersProvider {
     public OffersProvider(ProductProvider productProvider) {
         this.productProvider = productProvider;
     }
+
     /**
      * Populate the offers available
+     *
      */
     @PostConstruct
     public void init() throws ProductNotFoundException {

@@ -28,6 +28,11 @@ public class ComboDiscountOffer implements Offer {
     @NonNull
     private LocalDate offerEndDate;
 
+    /**
+     * Applies Combo discount offer if basket qualifies for the offer
+     * @param basket - basket with products
+     * @return - discount amount to be applied on the basket
+     */
     @Override
     public BigDecimal getDiscount(ShoppingBasket basket) {
         if (isOfferStillValid(basket.getShoppingDate(), offerStartDate, offerEndDate)) {

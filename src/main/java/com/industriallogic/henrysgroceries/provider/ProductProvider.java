@@ -19,6 +19,9 @@ public class ProductProvider {
 
     private Map<String, Product> productList;
 
+    /**
+     * Populates with all available products
+     */
     @PostConstruct
     public void init() {
         Map<String, Product> stock = new HashMap<>();
@@ -31,7 +34,7 @@ public class ProductProvider {
 
     public Product getProduct(String productName) throws ProductNotFoundException {
         return Optional.ofNullable(productList.get(productName.toUpperCase())).orElseThrow(() -> {
-            LOGGER.error("No Product found for {} ", productName);
+            LOGGER.error("No Product found for", productName);
             return new ProductNotFoundException("No Product found for - " + productName);
         });
     }

@@ -2,6 +2,7 @@ package com.industriallogic.henrysgroceries.model;
 
 
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @NoArgsConstructor
+@Component
 public class ShoppingBasket {
 
     private final Map<Product, Integer> basket = new HashMap<>();
