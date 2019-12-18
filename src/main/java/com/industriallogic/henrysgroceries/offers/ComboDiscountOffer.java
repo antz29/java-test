@@ -5,8 +5,8 @@ import com.industriallogic.henrysgroceries.model.ShoppingBasket;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class ComboDiscountOffer implements Offer {
             if (qualifyingProdCountInBasket >= qualifyingProdMinQnty) {
                 int purchaseQnty = basket.getProductsInBasket().getOrDefault(offerOnProduct, 0);
                 int eligibleOfferCount = Math.min(qualifyingProdCountInBasket/qualifyingProdMinQnty, purchaseQnty);
-                return offerOnProduct.getPrice().multiply(discountFactor).divide(ONE_HUNDRED, RoundingMode.HALF_UP).multiply( new BigDecimal(eligibleOfferCount));
+                return offerOnProduct.getPrice().multiply(discountFactor).divide(ONE_HUNDRED ).multiply( new BigDecimal(eligibleOfferCount));
             }
         }
         return BigDecimal.ZERO;

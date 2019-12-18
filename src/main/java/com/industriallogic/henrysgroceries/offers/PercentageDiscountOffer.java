@@ -7,7 +7,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class PercentageDiscountOffer implements Offer {
     public BigDecimal getDiscount(ShoppingBasket basket) {
         if (isOfferStillValid(basket.getShoppingDate(), offerStartDate, offerEndDate)) {
             Integer productQuantity = basket.getProductsInBasket().getOrDefault(product, 0);
-            return product.getPrice().multiply(discountPercentage).divide(ONE_HUNDRED, RoundingMode.HALF_UP).multiply(new BigDecimal(productQuantity));
+            return product.getPrice().multiply(discountPercentage).divide(ONE_HUNDRED ).multiply(new BigDecimal(productQuantity));
         }
         return BigDecimal.ZERO;
     }

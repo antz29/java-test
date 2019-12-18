@@ -23,7 +23,7 @@ public class TestMockUtil {
         LocalDate firstOfNextMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
         LocalDate endOfNextMonth = firstOfNextMonth.with(TemporalAdjusters.lastDayOfMonth());
         PercentageDiscountOffer applesOffer = new PercentageDiscountOffer("Apple 10% OFF", apples, BigDecimal.valueOf(10), LocalDate.now().plusDays(3), endOfNextMonth);
-        ComboDiscountOffer discountOffer = new ComboDiscountOffer("combo Offer", soup, 2, bread, BigDecimal.valueOf(50), LocalDate.now().minusDays(1), LocalDate.now().plusDays(7));
+        ComboDiscountOffer discountOffer = new ComboDiscountOffer("combo Offer", soup, 2, bread, BigDecimal.valueOf(50), LocalDate.now().minusDays(1), LocalDate.now().plusDays(6));
         return Collections.unmodifiableList(Arrays.asList(applesOffer, discountOffer));
     }
 }
