@@ -33,7 +33,7 @@ public class PriceShoppingBasketServiceTest {
     public void price1SoupAnd1BreadNoOfferAppliedTest() {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Bread");
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.45), bigDecimal);
     }
 
@@ -41,7 +41,7 @@ public class PriceShoppingBasketServiceTest {
     public void price2SoupAnd1BreadComboOfferAppliedTest() {
         ShoppingBasket basket =TestMockUtil.getBasket(productProvider, "Soup", "Soup","Bread");
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), bigDecimal);
     }
 
@@ -50,7 +50,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup","Bread");
         basket.setShoppingDate(LocalDate.now().minusDays(1));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), bigDecimal);
     }
 
@@ -59,7 +59,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup","Bread");
         basket.setShoppingDate(LocalDate.now().minusDays(2));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(2.10).setScale(2), bigDecimal);
     }
 
@@ -68,7 +68,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup","Bread");
         basket.setShoppingDate(LocalDate.now().plusDays(6));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), bigDecimal);
     }
 
@@ -77,7 +77,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup","Bread");
         basket.setShoppingDate(LocalDate.now().plusDays(7));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(2.10).setScale(2), bigDecimal);
     }
 
@@ -86,7 +86,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup", "Soup", "Bread", "Bread");
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(3.15), bigDecimal);
     }
 
@@ -95,7 +95,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup", "Soup", "Soup", "Bread", "Bread", "Bread");
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(4.20).setScale(2), bigDecimal);
     }
 
@@ -104,7 +104,7 @@ public class PriceShoppingBasketServiceTest {
         ShoppingBasket basket = TestMockUtil.getBasket(productProvider, "Soup", "Soup", "Soup", "Soup", "Bread");
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(3.00).setScale(2), bigDecimal);
     }
 
@@ -114,7 +114,7 @@ public class PriceShoppingBasketServiceTest {
 
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.90).setScale(2), bigDecimal);
     }
 
@@ -124,7 +124,7 @@ public class PriceShoppingBasketServiceTest {
         basket.setShoppingDate(LocalDate.now().plusDays(5));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.84), bigDecimal);
     }
 
@@ -136,7 +136,7 @@ public class PriceShoppingBasketServiceTest {
         basket.setShoppingDate(endOfNextMonth.plusDays(1));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(.60).setScale(2), bigDecimal);
     }
 
@@ -147,7 +147,7 @@ public class PriceShoppingBasketServiceTest {
         basket.setShoppingDate(LocalDate.now().plusDays(5));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.57), bigDecimal);
     }
 
@@ -158,7 +158,7 @@ public class PriceShoppingBasketServiceTest {
         basket.setShoppingDate(LocalDate.now().plusDays(5));
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.97), bigDecimal);
     }
 }

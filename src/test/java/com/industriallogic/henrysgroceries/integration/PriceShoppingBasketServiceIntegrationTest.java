@@ -26,45 +26,45 @@ import static org.junit.Assert.assertEquals;
 public class PriceShoppingBasketServiceIntegrationTest {
 
     @Autowired
-    PriceShoppingBasketService pricingService;
+    private PriceShoppingBasketService pricingService;
 
     @Autowired
-    ProductProvider productProvider;
+    private ProductProvider productProvider;
 
     @Test
     public void price3SoupAnd2BreadComboOfferAppliedOn1BreadTest() {
         ShoppingBasket basket = getBasket("Soup", "Soup", "Soup", "Bread", "Bread");
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(3.15), bigDecimal);
     }
 
     @Test
-    public void price6ApplesAndMilkBoughtTodayNoOfferApplied() {
+    public void price6ApplesAndMilkBoughtTodayNoOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Apples", "Apples", "Apples", "Apples", "Apples", "Apples", "Milk");
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.90).setScale(2), bigDecimal);
     }
 
     @Test
-    public void price6ApplesAndMilkBoughtIn5DaysPercentOfferApplied() {
+    public void price6ApplesAndMilkBoughtIn5DaysPercentOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Apples", "Apples", "Apples", "Apples", "Apples", "Apples", "Milk");
         basket.setShoppingDate(LocalDate.now().plusDays(5));
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.84), bigDecimal);
     }
 
     @Test
-    public void price3ApplesAnd2SoupBoughtIn5DaysPercentOfferApplied() {
+    public void price3ApplesAnd2SoupBoughtIn5DaysPercentOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Apples", "Apples", "Apples", "Soup", "Soup");
         basket.setShoppingDate(LocalDate.now().plusDays(5));
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.57), bigDecimal);
     }
 
     @Test
     public void price1SoupAnd1BreadNoOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Soup", "Bread");
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
 
         assertEquals(BigDecimal.valueOf(1.45), bigDecimal);
     }
@@ -72,17 +72,30 @@ public class PriceShoppingBasketServiceIntegrationTest {
     @Test
     public void price2SoupAnd1BreadComboOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Soup", "Soup", "Bread");
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), bigDecimal);
     }
 
     @Test
-    public void price3ApplesAnd2SoupAnd1BreadBoughtIn5DaysComboAndPercentOfferApplied() {
+    public void price2SoupAnd1BreadGetDiscountAmountTest() {
+        ShoppingBasket basket = getBasket("Soup", "Soup", "Bread");
+        BigDecimal bigDecimal = pricingService.getTotalDiscount(basket);
+        assertEquals(BigDecimal.valueOf(.40).setScale(2), bigDecimal);
+    }
+
+    @Test
+    public void price3ApplesAnd2SoupAnd1BreadBoughtIn5DaysComboAndPercentOfferAppliedTest() {
         ShoppingBasket basket = getBasket("Apples", "Apples", "Apples", "Soup", "Soup", "Bread");
-
         basket.setShoppingDate(LocalDate.now().plusDays(5));
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
+        assertEquals(BigDecimal.valueOf(1.97), bigDecimal);
+    }
 
-        BigDecimal bigDecimal = pricingService.priceShoppingBasket(basket);
+    @Test
+    public void price3ApplesAnd2SoupAnd1BreadBoughtIn5DaysGetDiscountAmountTest() {
+        ShoppingBasket basket = getBasket("Apples", "Apples", "Apples", "Soup", "Soup", "Bread");
+        basket.setShoppingDate(LocalDate.now().plusDays(5));
+        BigDecimal bigDecimal = pricingService.totalPriceToPay(basket);
         assertEquals(BigDecimal.valueOf(1.97), bigDecimal);
     }
 

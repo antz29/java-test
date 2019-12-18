@@ -1,21 +1,28 @@
 package com.industriallogic.henrysgroceries.model;
 
 
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor
 public class ShoppingBasket {
 
-    private Map<Product, Integer> basket = new HashMap<>();
+    private final Map<Product, Integer> basket = new HashMap<>();
     private LocalDate shoppingDate = LocalDate.now();
+    private BigDecimal curTotalAmount = BigDecimal.ZERO;
 
-    public void addProductToBasket(Product product) {
+    public BigDecimal addProductToBasket(Product product) {
         basket.compute(product,
                 (k, v) -> {
                     return v == null ? 1 : v + 1;
                 });
+        curTotalAmount = curTotalAmount.add(product.getPrice());
+        return curTotalAmount;
     }
 
     public void setShoppingDate(LocalDate date) {
@@ -30,6 +37,9 @@ public class ShoppingBasket {
         return Collections.unmodifiableMap(basket);
     }
 
+    public BigDecimal getCurTotalAmount() {
+        return curTotalAmount;
+    }
 }
 
 
