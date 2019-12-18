@@ -177,14 +177,14 @@ public class PriceShoppingBasketServiceTest {
     }
 
     @SneakyThrows
-    public ShoppingBasket getBasket(String... items) {
+    public ShoppingBasket getBasket(String... productNames) {
         when(productProvider.getProduct("Apples")).thenReturn(productList().get("APPLES"));
         when(productProvider.getProduct("Bread")).thenReturn(productList().get("BREAD"));
         when(productProvider.getProduct("Milk")).thenReturn(productList().get("MILK"));
         when(productProvider.getProduct("Soup")).thenReturn(productList().get("SOUP"));
         ShoppingBasket basket = new ShoppingBasket();
-        for (String item : items) {
-            basket.addProductToBasket(productProvider.getProduct(item));
+        for (String productName : productNames) {
+            basket.addProductToBasket(productProvider.getProduct(productName));
         }
         return basket;
     }
