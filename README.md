@@ -1,6 +1,21 @@
 # Java Exercise
 
-This is a simple exercise to allow you to demostrate your software engineering skillset. It's completly up to you how long you give yourself, stop when you're happy with the quality of your work, but we don't expect it to take too long.
+## Running the Application
+To run the application:
+
+mvn clean package -DskipTests
+
+mvn exec:java
+
+After this just follow the instructions. The output from the application is printed to the command line.
+
+## Running Tests
+To run tests:
+
+mvn clean test
+
+## Notes
+Everything executes successfully on my mac - macOS Mojave 10.14.6. - Java version: 11.0.1. However there is no functionality used that is not present in JDK 8.
 
 ## Instructions
   1. Please fork this repository and work on your fork.
