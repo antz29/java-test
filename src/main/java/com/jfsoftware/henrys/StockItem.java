@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 
 public class StockItem {
     private final Product product;
+    private final Product.Unit unit;
 
     public StockItem(final Product product) {
         this.product = product;
+        this.unit = product.getUnit();
     }
 
     public Product getProduct() {
@@ -15,5 +17,9 @@ public class StockItem {
 
     public BigDecimal getPrice() {
         return product.getPrice();
+    }
+
+    public Product.Unit getUnit() {
+        return unit;
     }
 }

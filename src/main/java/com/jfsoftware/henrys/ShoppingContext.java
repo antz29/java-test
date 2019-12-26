@@ -47,4 +47,16 @@ public class ShoppingContext {
     public List<StockItem> getBasket() {
         return basket;
     }
+    public void printReceipt() {
+        if (basketIsEmpty()) {
+            new Receipt()
+                    .setItems(basket)
+                    .setTotalPrice(getTotalPrice())
+                    .print();
+        }
+    }
+
+    private boolean basketIsEmpty() {
+        return basket.size() > 0;
+    }
 }

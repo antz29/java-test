@@ -1,6 +1,7 @@
 package com.jfsoftware.henrys;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
 public enum Product {
 
@@ -15,6 +16,21 @@ public enum Product {
     Product(Unit unit, BigDecimal price) {
         this.unit = unit;
         this.price = price;
+    }
+
+    public static Product fromString(final String enteredProduct) {
+        return Stream.of(Product.values())
+                .filter(p -> p.name()
+                        .equalsIgnoreCase(enteredProduct))
+                .findAny()
+                .orElseThrow(() -> new InvalidItemException("Please enter one of:\n " +
+                        "Soup\n " +
+                        "Bread\n " +
+                        "Milk\n " +
+                        "Apple"));
+    }
+    public Unit getUnit() {
+        return unit;
     }
 
     public BigDecimal getPrice() {
