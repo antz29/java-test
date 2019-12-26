@@ -23,7 +23,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    void sixApplesAndABottleOfMilkBoughtTodayIsPricedCorrectly() {
+    void sixApplesAndABottleOfMilkBoughtToday() {
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
@@ -33,5 +33,18 @@ public class AcceptanceTest {
         shoppingContext.addItemToBasket(new StockItem(MILK));
         shoppingContext.setDaysFromNowToBuy(0);
         assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("1.90"));
+    }
+
+    @Test
+    void sixApplesAndABottleOfMilkBoughtFiveDaysTime() {
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(MILK));
+        shoppingContext.setDaysFromNowToBuy(5);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("1.84"));
     }
 }
