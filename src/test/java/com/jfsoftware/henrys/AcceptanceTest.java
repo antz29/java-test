@@ -23,7 +23,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    void threeSoupTwoBreadBoughtToday() {
+    void threeSoupTwoBreadBoughtTodayIsPricedCorrectly() {
         shoppingContext.addItemToBasket(new StockItem(SOUP));
         shoppingContext.addItemToBasket(new StockItem(SOUP));
         shoppingContext.addItemToBasket(new StockItem(SOUP));
@@ -34,7 +34,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    void sixApplesAndABottleOfMilkBoughtToday() {
+    void sixApplesAndABottleOfMilkBoughtTodayIsPricedCorrectly() {
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
@@ -47,7 +47,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    void sixApplesAndABottleOfMilkBoughtFiveDaysTime() {
+    void sixApplesAndABottleOfMilkBoughtInFiveDaysTimeIsPricedCorrectly() {
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
@@ -60,7 +60,7 @@ public class AcceptanceTest {
     }
 
     @Test
-    void threeApplesTwoSoupAndLoafOfBreadBoughtFiveDaysTime() {
+    void threeApplesTwoSoupAndLoafOfBreadBoughtInFiveDaysTimeIsPricedCorrectly() {
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
         shoppingContext.addItemToBasket(new StockItem(APPLE));
