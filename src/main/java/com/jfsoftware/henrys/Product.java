@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public enum Product {
 
+    SOUP(Unit.TIN, new BigDecimal("0.65")),
+    BREAD(Unit.LOAF, new BigDecimal("0.80")),
     MILK(Unit.BOTTLE, new BigDecimal("1.30")),
     APPLE(Unit.SINGLE, new BigDecimal("0.10"));
 
@@ -20,6 +22,6 @@ public enum Product {
     }
 
     public enum Unit {
-        BOTTLE, SINGLE
+        TIN, LOAF, BOTTLE, SINGLE
     }
 }

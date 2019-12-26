@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.jfsoftware.henrys.Product.APPLE;
-import static com.jfsoftware.henrys.Product.MILK;
+import static com.jfsoftware.henrys.Product.*;
+import static com.jfsoftware.henrys.Product.BREAD;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,8 +18,19 @@ public class AcceptanceTest {
 
     @BeforeEach
     void createShoppingContext() {
-        Set<Offer> offers = new HashSet<>(asList(new AppleOffer()));
+        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadSoupOffer()));
         shoppingContext = new ShoppingContext(offers);
+    }
+
+    @Test
+    void threeSoupTwoBreadBoughtToday() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("3.15"));
     }
 
     @Test
