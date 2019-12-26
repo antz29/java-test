@@ -1,4 +1,6 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.offer;
+
+import com.jfsoftware.henrys.ShoppingContext;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

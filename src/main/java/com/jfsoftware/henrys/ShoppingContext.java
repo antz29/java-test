@@ -1,5 +1,9 @@
 package com.jfsoftware.henrys;
 
+import com.jfsoftware.henrys.cli.Receipt;
+import com.jfsoftware.henrys.model.StockItem;
+import com.jfsoftware.henrys.offer.Offer;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -24,7 +28,7 @@ public class ShoppingContext {
         this.daysFromNowToBuy = daysFromNowToBuy;
     }
 
-    public BigDecimal getTotalPrice() {
+    BigDecimal getTotalPrice() {
         BigDecimal totalDiscount = offers
                 .stream()
                 .map(offer -> offer.calculateOfferDiscount(this))

@@ -1,4 +1,4 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.offer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class OfferSeasonTest {
+class OfferSeasonTest {
 
     private OfferSeasonDetails offerSeasonDetails;
     private LocalDate yesterday;

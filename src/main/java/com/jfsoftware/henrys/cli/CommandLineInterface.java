@@ -1,4 +1,11 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.cli;
+
+import com.jfsoftware.henrys.ShoppingContext;
+import com.jfsoftware.henrys.model.Product;
+import com.jfsoftware.henrys.model.StockItem;
+import com.jfsoftware.henrys.offer.AppleOffer;
+import com.jfsoftware.henrys.offer.BreadSoupOffer;
+import com.jfsoftware.henrys.offer.Offer;
 
 import java.util.HashSet;
 import java.util.Scanner;

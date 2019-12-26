@@ -65,7 +65,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.jfsoftware.henrys.CommandLineInterface</mainClass>
+                    <mainClass>com.jfsoftware.henrys.cli.CommandLineInterface</mainClass>
                 </configuration>
             </plugin>
 

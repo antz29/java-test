@@ -1,4 +1,4 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.model;
 
 import java.math.BigDecimal;
 

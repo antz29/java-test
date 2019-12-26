@@ -1,4 +1,6 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.cli;
+
+import com.jfsoftware.henrys.model.StockItem;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -1,4 +1,6 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.model;
+
+import com.jfsoftware.henrys.cli.InvalidItemException;
 
 import java.math.BigDecimal;
 import java.util.stream.Stream;

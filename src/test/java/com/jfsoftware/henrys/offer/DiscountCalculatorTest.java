@@ -1,16 +1,17 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.offer;
 
+import com.jfsoftware.henrys.model.StockItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static com.jfsoftware.henrys.Product.*;
+import static com.jfsoftware.henrys.model.Product.*;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class DiscountCalculatorTest {
+class DiscountCalculatorTest {
     private DiscountCalculator calculator;
 
     @BeforeEach

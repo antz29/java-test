@@ -1,5 +1,9 @@
 package com.jfsoftware.henrys;
 
+import com.jfsoftware.henrys.model.StockItem;
+import com.jfsoftware.henrys.offer.AppleOffer;
+import com.jfsoftware.henrys.offer.BreadSoupOffer;
+import com.jfsoftware.henrys.offer.Offer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,11 +11,11 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.jfsoftware.henrys.Product.*;
+import static com.jfsoftware.henrys.model.Product.*;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AcceptanceTest {
+class AcceptanceTest {
 
     private ShoppingContext shoppingContext;
 

@@ -1,4 +1,7 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.offer;
+
+import com.jfsoftware.henrys.model.Product;
+import com.jfsoftware.henrys.model.StockItem;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -6,8 +9,8 @@ import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class DiscountCalculator {
-    public BigDecimal calculateAppleDiscount(final List<StockItem> basket) {
+class DiscountCalculator {
+    BigDecimal calculateAppleDiscount(final List<StockItem> basket) {
         return basket
                 .stream()
                 .filter(item -> item.getProduct().equals(Product.APPLE))
@@ -17,7 +20,7 @@ public class DiscountCalculator {
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal calculateSoupBreadDiscount(List<StockItem> basket) {
+    BigDecimal calculateSoupBreadDiscount(List<StockItem> basket) {
         final Supplier<Stream<StockItem>> streamSupplier = basket::stream;
         final long soupCount = streamSupplier
                 .get()

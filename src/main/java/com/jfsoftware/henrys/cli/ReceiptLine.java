@@ -1,13 +1,15 @@
-package com.jfsoftware.henrys;
+package com.jfsoftware.henrys.cli;
+
+import com.jfsoftware.henrys.model.Product;
 
 import java.math.BigDecimal;
 
-public class ReceiptLine {
+class ReceiptLine {
     private final Product.Unit unit;
     private final Product product;
     private final BigDecimal price;
 
-    public ReceiptLine(final Product.Unit unit, final Product product, final BigDecimal price) {
+    private ReceiptLine(final Product.Unit unit, final Product product, final BigDecimal price) {
         this.unit = unit;
         this.product = product;
         this.price = price;
@@ -17,15 +19,15 @@ public class ReceiptLine {
         return new ReceiptLine(unit, product, price);
     }
 
-    public Product.Unit getUnit() {
+    Product.Unit getUnit() {
         return unit;
     }
 
-    public Product getProduct() {
+    Product getProduct() {
         return product;
     }
 
-    public BigDecimal getPrice() {
+    BigDecimal getPrice() {
         return price;
     }
 }
