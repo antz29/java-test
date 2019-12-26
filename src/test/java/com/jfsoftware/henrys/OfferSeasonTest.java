@@ -71,5 +71,4 @@ public class OfferSeasonTest {
         offerSeasonDetails.setBuyDate(buyDate);
         assertThat(offerSeasonDetails.isOfferInSeason()).isFalse();
     }
-
 }

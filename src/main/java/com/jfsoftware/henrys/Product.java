@@ -29,6 +29,7 @@ public enum Product {
                         "Milk\n " +
                         "Apple"));
     }
+
     public Unit getUnit() {
         return unit;
     }

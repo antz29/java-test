@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.jfsoftware.henrys.Product.*;
-import static com.jfsoftware.henrys.Product.BREAD;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 

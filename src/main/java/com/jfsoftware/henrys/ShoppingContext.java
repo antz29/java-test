@@ -47,6 +47,7 @@ public class ShoppingContext {
     public List<StockItem> getBasket() {
         return basket;
     }
+
     public void printReceipt() {
         if (basketIsEmpty()) {
             new Receipt()
