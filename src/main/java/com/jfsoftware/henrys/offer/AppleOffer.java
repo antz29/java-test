@@ -5,6 +5,7 @@ import com.jfsoftware.henrys.ShoppingContext;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Objects;
 
 public class AppleOffer implements Offer {
 
@@ -18,5 +19,19 @@ public class AppleOffer implements Offer {
         offerSeasonDetails.setBuyDate(shoppingContext.calculateBuyDate());
         return offerSeasonDetails.isOfferInSeason() ?
                 discountCalculator.calculateAppleDiscount(shoppingContext.getBasket()) : new BigDecimal("0.00");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppleOffer that = (AppleOffer) o;
+        return offerSeasonDetails.equals(that.offerSeasonDetails) &&
+                discountCalculator.equals(that.discountCalculator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(offerSeasonDetails, discountCalculator);
     }
 }
