@@ -53,6 +53,6 @@ public class ShoppingBasketServiceImpl implements  ShoppingBasketService {
      */
     @Override
     public BigDecimal addProductToBasket(String productName) throws ProductNotFoundException {
-        return basket.addProductToBasket(productProvider.getProduct(productName));
+        return basket.addProductToBasket(productProvider.getProduct(productName)).setScale(2);
     }
 }

@@ -27,10 +27,6 @@ public class ShoppingBasket {
         return curTotalAmount;
     }
 
-    public void setShoppingDate(LocalDate date) {
-        this.shoppingDate = date;
-    }
-
     public LocalDate getShoppingDate() {
         return this.shoppingDate;
     }
