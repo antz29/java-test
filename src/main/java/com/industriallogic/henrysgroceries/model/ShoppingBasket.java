@@ -38,6 +38,10 @@ public class ShoppingBasket {
     public BigDecimal getCurTotalAmount() {
         return curTotalAmount;
     }
+
+    public void setShoppingDate(LocalDate shoppingDate) {
+        this.shoppingDate = shoppingDate;
+    }
 }
 
 

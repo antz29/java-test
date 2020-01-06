@@ -14,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class PercentageDiscountOfferTest {
 
-    @Mock
     private PercentageDiscountOffer percentDiscountOffer;
 
     @Mock
@@ -30,9 +30,14 @@ public class PercentageDiscountOfferTest {
 
     @Mock
     private static ShoppingBasket shoppingBasket;
+
     @Before
     public void setUP() throws ProductNotFoundException {
         when(productProvider.getProduct("Apples")).thenReturn(new Product("A123", "Apple", BigDecimal.valueOf(.10), MeasurementUnit.SINGLE));
+
+        LocalDate firstOfNextMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+        LocalDate endOfNextMonth = firstOfNextMonth.with(TemporalAdjusters.lastDayOfMonth());
+        percentDiscountOffer = new PercentageDiscountOffer("Apple 10% OFF", productProvider.getProduct("Apples"), BigDecimal.valueOf(10), LocalDate.now().plusDays(3), endOfNextMonth);
     }
 
 
@@ -44,9 +49,7 @@ public class PercentageDiscountOfferTest {
             put(productProvider.getProduct("Apples"), 3);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
-
-        when(percentDiscountOffer.getDiscount(shoppingBasket)).thenReturn(new BigDecimal(.00));
-        Assertions.assertEquals(new BigDecimal(.00), percentDiscountOffer.getDiscount(shoppingBasket));
+        Assertions.assertEquals(  BigDecimal.valueOf(0), percentDiscountOffer.getDiscount(shoppingBasket));
     }
 
     @Test
@@ -57,7 +60,6 @@ public class PercentageDiscountOfferTest {
             put(productProvider.getProduct("Apples"), 3);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
-        when(percentDiscountOffer.getDiscount(shoppingBasket)).thenReturn(new BigDecimal(.03));
-        Assertions.assertEquals(new BigDecimal(.03), percentDiscountOffer.getDiscount(shoppingBasket));
+        Assertions.assertEquals(  BigDecimal.valueOf(.03).setScale(2), percentDiscountOffer.getDiscount(shoppingBasket));
     }
 }

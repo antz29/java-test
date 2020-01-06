@@ -1,7 +1,6 @@
 package com.industriallogic.henrysgroceries;
 
 import com.industriallogic.henrysgroceries.exception.ProductNotFoundException;
-import com.industriallogic.henrysgroceries.model.ShoppingBasket;
 import com.industriallogic.henrysgroceries.service.ShoppingBasketServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

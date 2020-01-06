@@ -46,23 +46,28 @@ public class ShoppingBasketServiceTest {
         when(productProvider.getProduct("Soup")).thenReturn(new Product("S123", "Soup", BigDecimal.valueOf(.65), MeasurementUnit.TIN));
 
         when(OffersProvider.getOffers()).thenReturn(TestMockUtil.getOffersList());
+
+        when(shoppingBasket.addProductToBasket(productProvider.getProduct("Apples"))).thenReturn(BigDecimal.valueOf(0.10));
+        when(shoppingBasket.addProductToBasket(productProvider.getProduct("Soup"))).thenReturn(BigDecimal.valueOf(0.65));
+        when(shoppingBasket.addProductToBasket(productProvider.getProduct("Bread"))).thenReturn(BigDecimal.valueOf(0.80));
+        when(shoppingBasket.addProductToBasket(productProvider.getProduct("Milk"))).thenReturn(BigDecimal.valueOf(1.30));
     }
 
     @Test
     public void add2ApplesToBasketTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now());
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(1.45));
-        when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(1.45));
-        assertEquals(BigDecimal.valueOf(1.45), shoppingBasketService.totalPriceToPay());
+        when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(0.20).setScale(2));
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        assertEquals(BigDecimal.valueOf(0.20).setScale(2), shoppingBasketService.totalPriceToPay());
     }
 
     @Test
     public void price1SoupAnd1BreadNoOfferAppliedTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now());
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(1.45));
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(1.45));
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.45), totalPriceToPay);
     }
@@ -70,15 +75,17 @@ public class ShoppingBasketServiceTest {
     @Test
     public void price2SoupAnd1BreadComboOfferAppliedTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now());
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.30));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.10));
-         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
+        Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Soup"), 2);
             put(productProvider.getProduct("Bread"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(2.10));
+
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
+
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), totalPriceToPay);
     }
@@ -86,68 +93,71 @@ public class ShoppingBasketServiceTest {
     @Test
     public void price2SoupAnd1BreadBoughtYesterdayComboOfferAppliedTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now().minusDays(1));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.30));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.10));
-         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
+        Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Soup"), 2);
             put(productProvider.getProduct("Bread"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(2.10));
+
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
+
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), totalPriceToPay);
     }
 
     @Test
-    public void price2SoupAnd1BreadBoughtIn6DaysComboOfferAppliedTest() throws ProductNotFoundException{
+    public void price2SoupAnd1BreadBoughtIn6DaysComboOfferAppliedTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now().plusDays(6));
-
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.30));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.10));
-         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
+        Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Soup"), 2);
             put(productProvider.getProduct("Bread"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(2.10));
+
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.70).setScale(2), totalPriceToPay);
     }
 
     @Test
-    public void price2SoupAnd1BreadBoughtIn7DaysNoOfferAppliedTest() throws ProductNotFoundException{
+    public void price2SoupAnd1BreadBoughtIn7DaysNoOfferAppliedTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now().plusDays(7));
-
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.30));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.10));
-         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
+        Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Soup"), 2);
             put(productProvider.getProduct("Bread"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(2.10));
+
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
+
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(2.10).setScale(2), totalPriceToPay);
     }
 
     @Test
-    public void price3SoupAnd2BreadComboOfferAppliedOn1BreadTest() throws  ProductNotFoundException{
+    public void price3SoupAnd2BreadComboOfferAppliedOn1BreadTest() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now());
-
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.65));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.30));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.95));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.75));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(3.55));
-         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
+        Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Soup"), 3);
             put(productProvider.getProduct("Bread"), 2);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(3.55));
+
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
+        shoppingBasketService.addProductToBasket("Bread");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(3.15), totalPriceToPay);
     }
@@ -156,20 +166,21 @@ public class ShoppingBasketServiceTest {
     @Test
     public void price6ApplesAndMilkBoughtTodayNoOfferApplied() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now());
-
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.10));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.20));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.30));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.40));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.50));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.60));
-        when(shoppingBasketService.addProductToBasket("Milk")).thenReturn(BigDecimal.valueOf(1.90));
         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Apples"), 6);
             put(productProvider.getProduct("Milk"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(1.90));
+
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Milk");
+
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.90).setScale(2), totalPriceToPay);
     }
@@ -177,20 +188,20 @@ public class ShoppingBasketServiceTest {
     @Test
     public void price6ApplesAndMilkBoughtIn5DaysPercentOfferApplied() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now().plusDays(5));
-
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.10));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.20));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.30));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.40));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.50));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.60));
-        when(shoppingBasketService.addProductToBasket("Milk")).thenReturn(BigDecimal.valueOf(1.90));
         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Apples"), 6);
             put(productProvider.getProduct("Milk"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(1.90));
+
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Milk");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.84).setScale(2), totalPriceToPay);
     }
@@ -200,20 +211,18 @@ public class ShoppingBasketServiceTest {
         LocalDate firstOfNextMonth = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
         LocalDate endOfNextMonth = firstOfNextMonth.with(TemporalAdjusters.lastDayOfMonth());
         when(shoppingBasket.getShoppingDate()).thenReturn(endOfNextMonth.plusDays(1));
-
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.10));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.20));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.30));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.40));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.50));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.60));
-
         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Apples"), 6);
-            put(productProvider.getProduct("Milk"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(0.60));
+
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(.60).setScale(2), totalPriceToPay);
     }
@@ -222,14 +231,6 @@ public class ShoppingBasketServiceTest {
     @Test
     public void price3ApplesAnd2SoupAnd1BreadBoughtIn5DaysComboAndPercentOfferApplied() throws ProductNotFoundException {
         when(shoppingBasket.getShoppingDate()).thenReturn(LocalDate.now().plusDays(5));
-
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.10));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.20));
-        when(shoppingBasketService.addProductToBasket("Apples")).thenReturn(BigDecimal.valueOf(0.30));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(0.95));
-        when(shoppingBasketService.addProductToBasket("Soup")).thenReturn(BigDecimal.valueOf(1.60));
-        when(shoppingBasketService.addProductToBasket("Bread")).thenReturn(BigDecimal.valueOf(2.40));
-
         Map<Product, Integer> productMap = new HashMap<Product, Integer>() {{
             put(productProvider.getProduct("Apples"), 3);
             put(productProvider.getProduct("Soup"), 2);
@@ -237,6 +238,13 @@ public class ShoppingBasketServiceTest {
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
         when(shoppingBasket.getCurTotalAmount()).thenReturn(BigDecimal.valueOf(2.40));
+
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Apples");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Soup");
+        shoppingBasketService.addProductToBasket("Bread");
         BigDecimal totalPriceToPay = shoppingBasketService.totalPriceToPay();
         assertEquals(BigDecimal.valueOf(1.97), totalPriceToPay);
     }

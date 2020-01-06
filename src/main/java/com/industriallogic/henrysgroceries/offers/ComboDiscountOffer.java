@@ -40,7 +40,7 @@ public class ComboDiscountOffer implements Offer {
             if (qualifyingProdCountInBasket >= qualifyingProdMinQnty) {
                 int purchaseQnty = basket.getProductsInBasket().getOrDefault(offerOnProduct, 0);
                 int eligibleOfferCount = Math.min(qualifyingProdCountInBasket/qualifyingProdMinQnty, purchaseQnty);
-                return offerOnProduct.getPrice().multiply(discountFactor).divide(ONE_HUNDRED ).multiply( new BigDecimal(eligibleOfferCount));
+                return offerOnProduct.getPrice().multiply(discountFactor).divide(ONE_HUNDRED ).multiply( new BigDecimal(eligibleOfferCount)).setScale(2);
             }
         }
         return BigDecimal.ZERO;

@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class ComboDiscountOfferTest {
 
-    @Mock
     private ComboDiscountOffer comboDiscountOffer;
 
     @Mock
@@ -34,6 +33,8 @@ public class ComboDiscountOfferTest {
     public void setUP() throws ProductNotFoundException {
         when(productProvider.getProduct("Bread")).thenReturn(new Product("B123", "Bread", BigDecimal.valueOf(.80), MeasurementUnit.LOAF));
         when(productProvider.getProduct("Soup")).thenReturn(new Product("S123", "Soup", BigDecimal.valueOf(.65), MeasurementUnit.TIN));
+
+        comboDiscountOffer = new ComboDiscountOffer("COMBO OFFER", productProvider.getProduct("Soup"), 2, productProvider.getProduct("Bread"), BigDecimal.valueOf(50), LocalDate.now().minusDays(1), LocalDate.now().plusDays(6));
     }
 
     @Test
@@ -45,8 +46,7 @@ public class ComboDiscountOfferTest {
             put(productProvider.getProduct("Bread"), 1);
         }};
         when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
-        when(comboDiscountOffer.getDiscount(shoppingBasket)).thenReturn(new BigDecimal(.40));
-        assertEquals(new BigDecimal(.40), comboDiscountOffer.getDiscount(shoppingBasket));
+        assertEquals(  BigDecimal.valueOf(.40).setScale(2), comboDiscountOffer.getDiscount(shoppingBasket));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class ComboDiscountOfferTest {
             put(productProvider.getProduct("Soup"), 2);
             put(productProvider.getProduct("Bread"), 2);
         }};
-        when(comboDiscountOffer.getDiscount(shoppingBasket)).thenReturn(new BigDecimal(.40));
-        assertEquals(new BigDecimal(.40), comboDiscountOffer.getDiscount(shoppingBasket));
+        when(shoppingBasket.getProductsInBasket()).thenReturn(productMap);
+        assertEquals( BigDecimal.valueOf(.40).setScale(2), comboDiscountOffer.getDiscount(shoppingBasket));
     }
 }
