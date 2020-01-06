@@ -1,0 +1,6 @@
+Notes:
+1. Each offer is applied independently, offer applied previously have no bearing on next offer.
+2. May be rules be externalized, may be a rules engine like Drools.
+3. Possibly could have implemented visitor pattern.
+4. Could have added more options at command line i.e show available products, offers or discount applied. but kept it to minimal to calculate the final price after applying discounts.
+5.
