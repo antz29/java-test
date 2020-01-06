@@ -2,7 +2,7 @@ package com.jfsoftware.henrys;
 
 import com.jfsoftware.henrys.model.StockItem;
 import com.jfsoftware.henrys.offer.AppleOffer;
-import com.jfsoftware.henrys.offer.BreadSoupOffer;
+import com.jfsoftware.henrys.offer.BreadOffer;
 import com.jfsoftware.henrys.offer.Offer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class AcceptanceTest {
 
     @BeforeEach
     void createShoppingContext() {
-        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadSoupOffer()));
+        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadOffer()));
         shoppingContext = new ShoppingContext(offers);
     }
 

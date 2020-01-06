@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class BreadSoupOffer implements Offer {
+public class BreadOffer implements Offer {
     private OfferSeasonDetails offerSeasonDetails = new OfferSeasonDetails();
 
     @Override
@@ -60,7 +60,7 @@ public class BreadSoupOffer implements Offer {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BreadSoupOffer that = (BreadSoupOffer) o;
+        BreadOffer that = (BreadOffer) o;
         return offerSeasonDetails.equals(that.offerSeasonDetails);
     }
 

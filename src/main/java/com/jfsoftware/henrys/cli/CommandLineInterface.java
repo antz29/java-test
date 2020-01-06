@@ -4,7 +4,7 @@ import com.jfsoftware.henrys.ShoppingContext;
 import com.jfsoftware.henrys.model.Product;
 import com.jfsoftware.henrys.model.StockItem;
 import com.jfsoftware.henrys.offer.AppleOffer;
-import com.jfsoftware.henrys.offer.BreadSoupOffer;
+import com.jfsoftware.henrys.offer.BreadOffer;
 import com.jfsoftware.henrys.offer.Offer;
 
 import java.util.HashSet;
@@ -17,7 +17,7 @@ import static java.util.Arrays.asList;
 public class CommandLineInterface {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadSoupOffer()));
+        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadOffer()));
         ShoppingContext shoppingContext = new ShoppingContext(offers);
 
         int ch;
