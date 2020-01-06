@@ -75,14 +75,95 @@ class AcceptanceTest {
     }
 
     @Test
-    void emptyBasketBoughtToday() {
+    void emptyBasketBoughtTodayIsPricedCorrectly() {
         shoppingContext.setDaysFromNowToBuy(0);
         assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("0.00"));
     }
 
     @Test
-    void emptyBasketBoughtTomorrow() {
+    void emptyBasketBoughtTomorrowIsPricedCorrectly() {
         shoppingContext.setDaysFromNowToBuy(1);
         assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("0.00"));
+    }
+
+    @Test
+    void anAppleIsPricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("0.10"));
+    }
+
+    @Test
+    void applesArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.addItemToBasket(new StockItem(APPLE));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("0.20"));
+    }
+
+    @Test
+    void breadIsNotDiscountedWhenThereIsNoSoup() {
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("0.80"));
+    }
+
+    @Test
+    void oneLoafAndOneSoupArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("1.45"));
+    }
+
+    @Test
+    void twoSoupAndOneLoafArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("1.70"));
+    }
+
+    @Test
+    void threeSoupAndOneLoafArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("2.35"));
+    }
+
+    @Test
+    void threeSoupAndTwoLoavesArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("3.15"));
+    }
+
+    @Test
+    void twoSoupAndTwoLoavesArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("2.50"));
+    }
+
+    @Test
+    void fourSoupAndOneLoafAArePricedCorrectly() {
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(SOUP));
+        shoppingContext.addItemToBasket(new StockItem(BREAD));
+        shoppingContext.setDaysFromNowToBuy(0);
+        assertThat(shoppingContext.getTotalPrice()).isEqualTo(new BigDecimal("2.60"));
     }
 }
