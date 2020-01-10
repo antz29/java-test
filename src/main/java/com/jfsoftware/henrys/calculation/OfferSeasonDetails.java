@@ -1,26 +1,26 @@
-package com.jfsoftware.henrys.offer;
+package com.jfsoftware.henrys.calculation;
 
 import java.time.LocalDate;
 
-class OfferSeasonDetails {
+public class OfferSeasonDetails {
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalDate buyDate;
 
-    boolean isOfferInSeason() {
+    public boolean isOfferInSeason() {
         return (buyDate.isAfter(startDate) || buyDate.isEqual(startDate))
                 && (buyDate.isBefore(endDate) || buyDate.isEqual(endDate));
     }
 
-    void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
-    void setBuyDate(LocalDate buyDate) {
+    public void setBuyDate(LocalDate buyDate) {
         this.buyDate = buyDate;
     }
 }

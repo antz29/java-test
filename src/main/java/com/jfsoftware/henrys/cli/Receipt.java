@@ -1,24 +1,16 @@
 package com.jfsoftware.henrys.cli;
 
-import com.jfsoftware.henrys.model.StockItem;
+import com.jfsoftware.henrys.ShoppingCart;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Receipt {
-    private List<StockItem> stockItems;
-    private BigDecimal discountedPrice;
+final class Receipt {
+    private ShoppingCart shoppingCart;
 
-    public Receipt setItems(List<StockItem> stockItems) {
-        this.stockItems = stockItems;
-        return this;
-    }
-
-    public Receipt setTotalPrice(BigDecimal discountedPrice) {
-        this.discountedPrice = discountedPrice;
-        return this;
+    public Receipt(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public void print() {
@@ -50,15 +42,16 @@ public class Receipt {
         String leftAlignFormat = " %-10s  %-7s  %-7s  %-7.02f %n";
         formattedMessage = "Total".trim();
         leftAlignFormat = " %-10s  %-7s  %-7s  %-7s %n";
-        System.out.printf(leftAlignFormat, formattedMessage, "", "", discountedPrice);
+        System.out.printf(leftAlignFormat, formattedMessage, "", "", shoppingCart.calculateTotalPrice());
         formattedMessage = LocalDate.now().toString();
         leftAlignFormat = " %-10s  %-7s  %-7s  %-7s %n";
         System.out.printf(leftAlignFormat, formattedMessage, "", "", "", "");
     }
 
     private List<ReceiptLine> receiptLines() {
-        return stockItems.stream().map(stockItem -> ReceiptLine
-                .aReceiptContaining(stockItem.getUnit(), stockItem.getProduct(), stockItem.getPrice()))
+        return shoppingCart.getItems()
+                .stream().map(stockItem -> ReceiptLine
+                        .aReceiptContaining(stockItem.getUnit(), stockItem.getProduct(), stockItem.getPrice()))
                 .collect(Collectors.toList());
     }
 }

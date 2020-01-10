@@ -1,24 +1,17 @@
 package com.jfsoftware.henrys.cli;
 
-import com.jfsoftware.henrys.ShoppingContext;
+import com.jfsoftware.henrys.ShoppingCart;
+import com.jfsoftware.henrys.model.Item;
 import com.jfsoftware.henrys.model.Product;
-import com.jfsoftware.henrys.model.StockItem;
-import com.jfsoftware.henrys.offer.AppleOffer;
-import com.jfsoftware.henrys.offer.BreadOffer;
-import com.jfsoftware.henrys.offer.Offer;
 
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import static java.lang.Integer.valueOf;
-import static java.util.Arrays.asList;
 
-public class CommandLineInterface {
+public final class CommandLineInterface {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        Set<Offer> offers = new HashSet<>(asList(new AppleOffer(), new BreadOffer()));
-        ShoppingContext shoppingContext = new ShoppingContext(offers);
+        ShoppingCart shoppingCart = new ShoppingCart();
 
         int ch;
         while (true) {
@@ -38,15 +31,15 @@ public class CommandLineInterface {
                 case 1:
                     System.out.println("Enter product: [Soup, Bread, Milk, Apple]");
                     String product = sc.next();
-                    shoppingContext.addItemToBasket(new StockItem(Product.fromString(product)));
+                    shoppingCart.addItem(new Item(Product.fromString(product)));
                     break;
                 case 2:
                     System.out.println("Enter day to purchase goods, i.e. 0 for today, 1 for tomorrow etc");
                     String daysFromNow = sc.next();
-                    shoppingContext.setDaysFromNowToBuy(valueOf(daysFromNow));
+                    shoppingCart.setDaysFromNowToBuy(valueOf(daysFromNow));
                     break;
                 case 3:
-                    shoppingContext.printReceipt();
+                    new Receipt(shoppingCart).print();
                     System.exit(0);
                     break;
             }

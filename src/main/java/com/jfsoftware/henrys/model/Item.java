@@ -2,11 +2,11 @@ package com.jfsoftware.henrys.model;
 
 import java.math.BigDecimal;
 
-public class StockItem {
+public final class Item {
     private final Product product;
     private final Product.Unit unit;
 
-    public StockItem(final Product product) {
+    public Item(final Product product) {
         this.product = product;
         this.unit = product.getUnit();
     }
