@@ -2,7 +2,6 @@ package com.jfsoftware.henrys;
 
 import com.jfsoftware.henrys.model.Item;
 import com.jfsoftware.henrys.model.Product;
-import com.jfsoftware.henrys.calculation.PriceCalculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -33,11 +32,10 @@ public final class ShoppingCart {
     }
 
     public BigDecimal calculateTotalPrice() {
-        BigDecimal priceTotal = BigDecimal.ZERO;
-        List<PriceCalculator> calculators = Product.getPriceCalculators();
-        for (PriceCalculator calculator : calculators) {
-            priceTotal = priceTotal.add(calculator.calculateDiscountedPrice(this));
-        }
-        return priceTotal.setScale(2, RoundingMode.HALF_UP);
+        return Product.getPriceCalculators()
+                .stream()
+                .map(c -> c.calculateDiscountedPrice(this))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }

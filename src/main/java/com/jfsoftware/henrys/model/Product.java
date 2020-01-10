@@ -28,8 +28,7 @@ public enum Product {
 
     public static Product fromString(final String enteredProduct) {
         return Stream.of(Product.values())
-                .filter(p -> p.name()
-                        .equalsIgnoreCase(enteredProduct))
+                .filter(p -> p.name().equalsIgnoreCase(enteredProduct))
                 .findAny()
                 .orElseThrow(() -> new InvalidItemException("Please enter one of:\n " +
                         "Soup\n " +
