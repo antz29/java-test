@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 import static com.jfsoftware.henrys.calculation.PriceCalculator.calculateRawPrice;
 
 public final class BreadPriceCalculator implements PriceCalculator {
-    private OfferSeasonDetails offerSeasonDetails;
+    private final OfferSeasonDetails offerSeasonDetails;
     private ShoppingCart shoppingCart;
 
-    public BreadPriceCalculator(OfferSeasonDetails offerSeasonDetails) {
+    public BreadPriceCalculator(final OfferSeasonDetails offerSeasonDetails) {
         this.offerSeasonDetails = offerSeasonDetails;
     }
 
@@ -33,7 +33,7 @@ public final class BreadPriceCalculator implements PriceCalculator {
         return offerSeasonDetails.isOfferInSeason() ? discountPrice(rawPrice) : rawPrice;
     }
 
-    private BigDecimal discountPrice(BigDecimal price) {
+    private BigDecimal discountPrice(final BigDecimal price) {
         final Supplier<Stream<Item>> streamSupplier = () -> shoppingCart.getItems().stream();
         final long soupCount = streamSupplier
                 .get()
@@ -49,11 +49,11 @@ public final class BreadPriceCalculator implements PriceCalculator {
         return price;
     }
 
-    private boolean breadDiscountApplicable(long soupCount, long breadCount) {
+    private boolean breadDiscountApplicable(final long soupCount, final long breadCount) {
         return soupCount >= 2 && breadCount > 0;
     }
 
-    private BigDecimal discountCountBread(long soupCount) {
+    private BigDecimal discountCountBread(final long soupCount) {
         final long halfPriceBreadFactor = soupCount / 2;
         final BigDecimal priceOfHalfPriceLoaves = Product.BREAD
                 .getPrice()
