@@ -3,6 +3,8 @@ package com.grocery.henry;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -20,8 +22,8 @@ public class BasketTest {
         basket.add("soup", 3);
         basket.add("bread", 2);
 
-        double result = basket.calculate();
+        BigDecimal result = basket.calculate();
 
-        assertThat(result, is(3.15));
+        assertThat(result, is(BigDecimal.valueOf(3.15)));
     }
 }

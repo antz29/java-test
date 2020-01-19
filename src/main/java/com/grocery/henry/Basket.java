@@ -1,44 +1,52 @@
 package com.grocery.henry;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Basket {
     private Map<String, Integer> products = new HashMap();
-    private double soup = 0.65;
-    private double bread = 0.80;
-    private double milk = 1.30;
-    private double apple = 0.10;
+    private BigDecimal soup = BigDecimal.valueOf(0.65);
+    private BigDecimal bread = BigDecimal.valueOf(0.80);
+    private BigDecimal milk = BigDecimal.valueOf(1.30);
+    private BigDecimal apple = BigDecimal.valueOf(0.10);
 
     public void add(String productName, int count) {
         products.put(productName, count);
     }
 
 
-    public double calculate() {
-        double totalPrice = 0d;
+    public BigDecimal calculate() {
+        BigDecimal totalPrice = BigDecimal.valueOf(0.0);
         for (String productName : products.keySet()) {
             switch (productName) {
                 case "soup":
-                    System.out.println("soup");
-                    totalPrice = totalPrice + (soup * products.get(productName));
+                    totalPrice = totalPrice.add(soup.multiply(BigDecimal.valueOf(products.get(productName))));
                     break;
                 case "bread":
-                    System.out.println("bread");
-                    totalPrice = totalPrice + (bread * products.get(productName));
+                    totalPrice = totalPrice.add(getBreadDiscount());
                     break;
                 case "milk":
-                    System.out.println("milk");
-                    totalPrice = totalPrice + (milk * products.get(productName));
+                    totalPrice = totalPrice.add(milk.multiply(BigDecimal.valueOf(products.get(productName))));
                     break;
                 case "apple":
-                    System.out.println("apple");
-                    totalPrice = totalPrice + (apple * products.get(productName));
+                    totalPrice = totalPrice.add(apple.multiply(BigDecimal.valueOf(products.get(productName))));
                     break;
                 default:
                     System.out.println("no match");
             }
         }
         return totalPrice;
+    }
+
+    private BigDecimal getBreadDiscount() {
+        BigDecimal breadPriceTotal;
+        if (products.containsKey("soup") && products.get("soup") >= 2) {
+            int numberOfDiscounts = products.get("soup") / 2;
+            breadPriceTotal = (bread.divide(BigDecimal.valueOf(2))).multiply(BigDecimal.valueOf(numberOfDiscounts));
+
+            return breadPriceTotal.add(bread.multiply(BigDecimal.valueOf((products.get("bread") - numberOfDiscounts))));
+        }
+        return bread.multiply(BigDecimal.valueOf(products.get("bread")));
     }
 }
