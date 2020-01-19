@@ -23,34 +23,33 @@ public class Basket {
     }
 
     public BigDecimal calculate(LocalDate orderDate) {
-        BigDecimal totalPrice = valueOf(0.0);
+        BigDecimal total = valueOf(0.0);
         for (Product product : products.keySet()) {
             switch (product) {
                 case SOUP:
-                    totalPrice = totalPrice.add(SOUP.getPrice().multiply(valueOf(products.get(product))));
+                    total = total.add(SOUP.getPrice().multiply(valueOf(products.get(product))));
                     break;
                 case BREAD:
-                    totalPrice = totalPrice.add(breadPriceIncludingDiscount(orderDate));
+                    total = total.add(breadPriceIncludingDiscount(orderDate));
                     break;
                 case MILK:
-                    totalPrice = totalPrice.add(MILK.getPrice().multiply(valueOf(products.get(product))));
+                    total = total.add(MILK.getPrice().multiply(valueOf(products.get(product))));
                     break;
                 case APPLE:
-                    totalPrice = totalPrice.add(applePriceIncludingDiscount(orderDate));
+                    total = total.add(applePriceIncludingDiscount(orderDate));
                     break;
                 default:
                     System.out.println("no match");
             }
         }
-        return totalPrice;
+        return total;
     }
 
     private BigDecimal breadPriceIncludingDiscount(LocalDate orderDate) {
-        BigDecimal breadPriceTotal;
         if (isBreadOfferValid(orderDate)) {
             if (products.containsKey(SOUP) && products.get(SOUP) >= 2) {
                 int numberOfDiscounts = products.get(SOUP) / 2;
-                breadPriceTotal = (BREAD.getPrice().divide(valueOf(2))).multiply(valueOf(numberOfDiscounts));
+                BigDecimal breadPriceTotal = (BREAD.getPrice().divide(valueOf(2))).multiply(valueOf(numberOfDiscounts));
                 return breadPriceTotal.add(BREAD.getPrice().multiply(valueOf((products.get(BREAD) - numberOfDiscounts))));
             }
         }
