@@ -1,5 +1,6 @@
 package com.grocery.henry;
 
+import com.grocery.henry.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,8 +20,8 @@ public class BasketTest {
 
     @Test
     public void shouldApplyDiscountWhenThreeTinsAndTwoLoavesAdded() {
-        basket.add("soup", 3);
-        basket.add("bread", 2);
+        basket.add(Product.SOUP, 3);
+        basket.add(Product.BREAD, 2);
 
         BigDecimal result = basket.calculate();
 
