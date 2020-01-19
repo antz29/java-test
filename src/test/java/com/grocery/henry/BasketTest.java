@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static java.time.LocalDate.now;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -19,12 +20,43 @@ public class BasketTest {
     }
 
     @Test
-    public void shouldApplyDiscountWhenThreeTinsAndTwoLoavesAdded() {
+    public void shouldApplyDiscountWhenThreeSoupsTwoBreadsBoughtToday() {
         basket.add(Product.SOUP, 3);
         basket.add(Product.BREAD, 2);
 
-        BigDecimal result = basket.calculate();
+        BigDecimal result = basket.calculate(now());
 
         assertThat(result, is(BigDecimal.valueOf(3.15)));
+    }
+
+    @Test
+    public void shouldNotApplyDiscountWhenSixApplesOneMilkBoughtToday() {
+        basket.add(Product.APPLE, 6);
+        basket.add(Product.MILK, 1);
+
+        BigDecimal result = basket.calculate(now());
+
+        assertThat(result, is(BigDecimal.valueOf(1.90)));
+    }
+
+    @Test
+    public void shouldApplyDiscountWhenSixApplesOneMilkBoughtInFiveDaysTime() {
+        basket.add(Product.APPLE, 6);
+        basket.add(Product.MILK, 1);
+
+        BigDecimal result = basket.calculate(now().plusDays(5));
+
+        assertThat(result, is(BigDecimal.valueOf(1.84)));
+    }
+
+    @Test
+    public void shouldApplyDiscountWhenThreeApplesTwoSoupsOneBreadBoughtInFiveDaysTime() {
+        basket.add(Product.APPLE, 3);
+        basket.add(Product.SOUP, 2);
+        basket.add(Product.BREAD, 1);
+
+        BigDecimal result = basket.calculate(now().plusDays(5));
+
+        assertThat(result, is(BigDecimal.valueOf(1.97)));
     }
 }
