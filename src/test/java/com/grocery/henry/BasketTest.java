@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
+import static java.math.BigDecimal.valueOf;
 import static java.time.LocalDate.now;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -26,7 +27,7 @@ public class BasketTest {
 
         BigDecimal result = basket.calculate(now());
 
-        assertThat(result, is(BigDecimal.valueOf(3.15)));
+        assertThat(result, is(valueOf(3.15)));
     }
 
     @Test
@@ -36,7 +37,7 @@ public class BasketTest {
 
         BigDecimal result = basket.calculate(now());
 
-        assertThat(result, is(BigDecimal.valueOf(1.90)));
+        assertThat(result, is(valueOf(1.90)));
     }
 
     @Test
@@ -46,7 +47,7 @@ public class BasketTest {
 
         BigDecimal result = basket.calculate(now().plusDays(5));
 
-        assertThat(result, is(BigDecimal.valueOf(1.84)));
+        assertThat(result, is(valueOf(1.84)));
     }
 
     @Test
@@ -57,6 +58,6 @@ public class BasketTest {
 
         BigDecimal result = basket.calculate(now().plusDays(5));
 
-        assertThat(result, is(BigDecimal.valueOf(1.97)));
+        assertThat(result, is(valueOf(1.97)));
     }
 }

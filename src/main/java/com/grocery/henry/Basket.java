@@ -11,15 +11,13 @@ import static com.grocery.henry.domain.Product.APPLE;
 import static com.grocery.henry.domain.Product.BREAD;
 import static com.grocery.henry.domain.Product.MILK;
 import static com.grocery.henry.domain.Product.SOUP;
-import static com.grocery.henry.util.DiscountUtil.isBreadOfferValid;
-import static com.grocery.henry.util.DiscountUtil.isMilkOfferValid;
 import static java.math.BigDecimal.valueOf;
 
 public class Basket {
     private Map<Product, Integer> products = new HashMap();
 
-    public void add(Product productName, int count) {
-        products.put(productName, count);
+    public void add(Product product, int count) {
+        products.put(product, count);
     }
 
     public BigDecimal calculate(LocalDate orderDate) {
@@ -27,16 +25,25 @@ public class Basket {
         for (Product product : products.keySet()) {
             switch (product) {
                 case SOUP:
-                    total = total.add(SOUP.getPrice().multiply(valueOf(products.get(product))));
+                    BigDecimal soupPrice = SOUP.getPrice().multiply(valueOf(products.get(product)));
+                    System.out.println("Soup Price : " + soupPrice);
+                    total = total.add(soupPrice);
                     break;
                 case BREAD:
-                    total = total.add(breadPriceIncludingDiscount(orderDate));
+                    BigDecimal breadPrice = BREAD.getDiscount().calculatePrice(products, BREAD, orderDate);
+                    System.out.println("Bread Price : " + breadPrice);
+                    total = total.add(breadPrice);
                     break;
                 case MILK:
-                    total = total.add(MILK.getPrice().multiply(valueOf(products.get(product))));
+                    BigDecimal milkPrice = MILK.getPrice().multiply(valueOf(products.get(product)));
+                    System.out.println("Milk Price : " + milkPrice);
+                    total = total.add(milkPrice);
                     break;
                 case APPLE:
-                    total = total.add(applePriceIncludingDiscount(orderDate));
+                    BigDecimal applePrice = APPLE.getDiscount().calculatePrice(products, APPLE, orderDate);
+//                    BigDecimal applePrice = applePriceIncludingDiscount(orderDate);
+                    System.out.println("Apple Price : " + applePrice);
+                    total = total.add(applePrice);
                     break;
                 default:
                     System.out.println("no match");
@@ -45,23 +52,23 @@ public class Basket {
         return total;
     }
 
-    private BigDecimal breadPriceIncludingDiscount(LocalDate orderDate) {
-        if (isBreadOfferValid(orderDate)) {
-            if (products.containsKey(SOUP) && products.get(SOUP) >= 2) {
-                int numberOfDiscounts = products.get(SOUP) / 2;
-                BigDecimal breadPriceTotal = (BREAD.getPrice().divide(valueOf(2))).multiply(valueOf(numberOfDiscounts));
-                return breadPriceTotal.add(BREAD.getPrice().multiply(valueOf((products.get(BREAD) - numberOfDiscounts))));
-            }
-        }
-        return BREAD.getPrice().multiply(valueOf(products.get(BREAD)));
-    }
-
-
-    private BigDecimal applePriceIncludingDiscount(LocalDate orderDate) {
-        BigDecimal totalApplePrice = APPLE.getPrice().multiply(valueOf(products.get(APPLE)));
-        if (isMilkOfferValid(orderDate)) {
-            return totalApplePrice.subtract(totalApplePrice.multiply(valueOf(10)).divide(valueOf(100)));
-        }
-        return totalApplePrice;
-    }
+//    private BigDecimal breadPriceIncludingDiscount(LocalDate orderDate) {
+//        if (isBreadOfferValid(orderDate)) {
+//            if (products.containsKey(SOUP) && products.get(SOUP) >= 2) {
+//                int numberOfDiscounts = products.get(SOUP) / 2;
+//                BigDecimal breadPriceTotal = (BREAD.getPrice().divide(valueOf(2))).multiply(valueOf(numberOfDiscounts));
+//                return breadPriceTotal.add(BREAD.getPrice().multiply(valueOf((products.get(BREAD) - numberOfDiscounts))));
+//            }
+//        }
+//        return BREAD.getPrice().multiply(valueOf(products.get(BREAD)));
+//    }
+//
+//
+//    private BigDecimal applePriceIncludingDiscount(LocalDate orderDate) {
+//        BigDecimal totalApplePrice = APPLE.getPrice().multiply(valueOf(products.get(APPLE)));
+//        if (isMilkOfferValid(orderDate)) {
+//            return totalApplePrice.subtract(totalApplePrice.multiply(valueOf(10)).divide(valueOf(100)));
+//        }
+//        return totalApplePrice;
+//    }
 }

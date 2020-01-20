@@ -2,8 +2,9 @@ package com.grocery.henry.util;
 
 import org.junit.Test;
 
-import java.time.LocalDate;
-
+import static com.grocery.henry.util.DiscountUtil.isBreadOfferValid;
+import static com.grocery.henry.util.DiscountUtil.isMilkOfferValid;
+import static java.time.LocalDate.now;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,21 +12,21 @@ public class DiscountUtilTest {
 
     @Test
     public void shouldReturnValidBreadOffer() {
-        assertTrue(DiscountUtil.isBreadOfferValid(LocalDate.now()));
+        assertTrue(isBreadOfferValid(now()));
     }
 
     @Test
     public void shouldNotReturnValidBreadOffer() {
-        assertFalse(DiscountUtil.isBreadOfferValid(LocalDate.now().minusDays(2)));
+        assertFalse(isBreadOfferValid(now().minusDays(2)));
     }
 
     @Test
     public void shouldReturnValidMilkOffer() {
-        assertTrue(DiscountUtil.isMilkOfferValid(LocalDate.now().plusDays(5)));
+        assertTrue(isMilkOfferValid(now().plusDays(5)));
     }
 
     @Test
     public void shouldNotReturnValidMilkOffer() {
-        assertFalse(DiscountUtil.isMilkOfferValid(LocalDate.now()));
+        assertFalse(isMilkOfferValid(now()));
     }
 }
