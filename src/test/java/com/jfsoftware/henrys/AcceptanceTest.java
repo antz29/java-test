@@ -12,11 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class AcceptanceTest {
 
-    private ShoppingCart shoppingCart;
+    private Cart shoppingCart;
 
     @BeforeEach
     void createShoppingContext() {
-        shoppingCart = new ShoppingCart();
+        shoppingCart = new Cart();
     }
 
     @Test

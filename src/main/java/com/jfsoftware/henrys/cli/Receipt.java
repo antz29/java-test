@@ -1,15 +1,15 @@
 package com.jfsoftware.henrys.cli;
 
-import com.jfsoftware.henrys.ShoppingCart;
+import com.jfsoftware.henrys.Cart;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 final class Receipt {
-    private ShoppingCart shoppingCart;
+    private Cart shoppingCart;
 
-    public Receipt(ShoppingCart shoppingCart) {
+    public Receipt(Cart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
 

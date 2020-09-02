@@ -1,6 +1,6 @@
 package com.jfsoftware.henrys.cli;
 
-import com.jfsoftware.henrys.ShoppingCart;
+import com.jfsoftware.henrys.Cart;
 import com.jfsoftware.henrys.model.Item;
 import com.jfsoftware.henrys.model.Product;
 
@@ -11,7 +11,7 @@ import static java.lang.Integer.valueOf;
 public final class CommandLineInterface {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        ShoppingCart shoppingCart = new ShoppingCart();
+        Cart shoppingCart = new Cart();
 
         int ch;
         while (true) {

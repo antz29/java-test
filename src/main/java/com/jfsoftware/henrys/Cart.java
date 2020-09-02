@@ -1,5 +1,6 @@
 package com.jfsoftware.henrys;
 
+import com.jfsoftware.henrys.calculation.SeasonOfferRules;
 import com.jfsoftware.henrys.model.Item;
 import com.jfsoftware.henrys.model.Product;
 
@@ -11,20 +12,15 @@ import java.util.List;
 
 import static java.util.Collections.unmodifiableList;
 
-public final class ShoppingCart {
+public final class Cart {
     final private List<Item> items = new ArrayList<>();
-    private long daysFromNowToBuy;
 
     public void addItem(final Item item) {
         items.add(item);
     }
 
     public void setDaysFromNowToBuy(final long daysFromNowToBuy) {
-        this.daysFromNowToBuy = daysFromNowToBuy;
-    }
-
-    public LocalDate calculateBuyDate() {
-        return LocalDate.now().plusDays(daysFromNowToBuy);
+        SeasonOfferRules.getInstance().setBuyDate(LocalDate.now().plusDays(daysFromNowToBuy));
     }
 
     public List<Item> getItems() {

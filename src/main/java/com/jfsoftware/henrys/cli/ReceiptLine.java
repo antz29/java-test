@@ -4,7 +4,7 @@ import com.jfsoftware.henrys.model.Product;
 
 import java.math.BigDecimal;
 
-final class  ReceiptLine {
+final class ReceiptLine {
     private final Product.Unit unit;
     private final Product product;
     private final BigDecimal price;

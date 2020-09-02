@@ -2,10 +2,19 @@ package com.jfsoftware.henrys.calculation;
 
 import java.time.LocalDate;
 
-public class OfferSeasonDetails {
+public class SeasonOfferRules {
     private LocalDate startDate;
     private LocalDate endDate;
     private LocalDate buyDate;
+
+    private SeasonOfferRules() {
+    }
+
+    private static SeasonOfferRules offerSeasonDetails = new SeasonOfferRules();
+
+    public static SeasonOfferRules getInstance() {
+        return offerSeasonDetails;
+    }
 
     public boolean isOfferInSeason() {
         return (buyDate.isAfter(startDate) || buyDate.isEqual(startDate))
