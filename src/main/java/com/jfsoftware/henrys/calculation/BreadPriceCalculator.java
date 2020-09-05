@@ -56,7 +56,7 @@ public final class BreadPriceCalculator implements PriceCalculator {
         final long halfPriceBreadFactor = soupCount / 2;
         final BigDecimal priceOfHalfPriceLoaves = Product.BREAD
                 .getPrice()
-                .multiply(new BigDecimal("0.5"));
+                .multiply(new BigDecimal(0.50));
 
         return priceOfHalfPriceLoaves
                 .multiply(new BigDecimal(halfPriceBreadFactor))

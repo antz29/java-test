@@ -20,6 +20,6 @@ public final class ApplePriceCalculator implements PriceCalculator {
     }
 
     private BigDecimal discountPrice(final BigDecimal price) {
-        return SeasonOfferRules.getInstance().isOfferInSeason() ? price.multiply(new BigDecimal("0.90")) : price;
+        return SeasonOfferRules.getInstance().isOfferInSeason() ? price.multiply(new BigDecimal(0.90)) : price;
     }
 }

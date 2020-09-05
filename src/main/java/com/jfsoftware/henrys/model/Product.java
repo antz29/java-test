@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum Product {
-    SOUP(Unit.TIN, new BigDecimal("0.65"), new SoupPriceCalculator()),
-    BREAD(Unit.LOAF, new BigDecimal("0.80"), new BreadPriceCalculator()),
-    MILK(Unit.BOTTLE, new BigDecimal("1.30"), new MilkPriceCalculator()),
-    APPLE(Unit.SINGLE, new BigDecimal("0.10"), new ApplePriceCalculator());
+    SOUP(Unit.TIN, new BigDecimal(0.65), new SoupPriceCalculator()),
+    BREAD(Unit.LOAF, new BigDecimal(0.80), new BreadPriceCalculator()),
+    MILK(Unit.BOTTLE, new BigDecimal(1.30), new MilkPriceCalculator()),
+    APPLE(Unit.SINGLE, new BigDecimal(0.10), new ApplePriceCalculator());
 
     final private Unit unit;
     final private BigDecimal price;
