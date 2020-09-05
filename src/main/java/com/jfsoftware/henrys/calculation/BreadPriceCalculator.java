@@ -10,11 +10,6 @@ import java.time.LocalDate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.jfsoftware.henrys.calculation.PriceCalculator.calculateRawPrice;
-
-/**
- * Refactor this code
- */
 public final class BreadPriceCalculator implements PriceCalculator {
     private Cart cart;
 
@@ -25,7 +20,7 @@ public final class BreadPriceCalculator implements PriceCalculator {
         final LocalDate sevenDaysFromYesterday = yesterday.plusDays(7);
         SeasonOfferRules.getInstance().setStartDate(yesterday);
         SeasonOfferRules.getInstance().setEndDate(sevenDaysFromYesterday);
-        BigDecimal rawPrice = calculateRawPrice(cart, Product.BREAD);
+        BigDecimal rawPrice = PriceCalculator.calculateRawPrice(cart, Product.BREAD);
 
         return SeasonOfferRules.getInstance().isOfferInSeason() ? discountPrice(rawPrice) : rawPrice;
     }
